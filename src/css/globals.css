@@ -74,3 +74,24 @@
       @apply bg-background text-foreground;
     }
   }
+
+/* 메인 슬라이드 화살표 */
+@keyframes fadeIn {
+  0%, 30%, 80%, 100% { opacity: 0; }
+  20%, 70% { opacity: 1; }
+}
+
+@keyframes fadeInOut {
+  0%, 10%, 80%, 100% { opacity: 0; }
+  50%, 70% { opacity: 1; }
+}
+
+.tw-arrow-fadeIn1 {
+  animation: fadeInOut 3s ease-in-out infinite;
+  animation-delay: 0.5s;
+}
+
+.tw-arrow-fadeIn2 {
+  animation: fadeInOut 3s ease-in-out infinite;
+}
+/* 메인 슬라이드 화살표 */
