@@ -4,7 +4,7 @@ import Axios, {AxiosError, AxiosRequestConfig} from 'axios';
 import {importData} from "@/axios/import-data";
 
 
-export const FARMFARM_AXIOS_INSTANCE = Axios.create({ baseURL: importData.VITE_FARMFARM_SERVER_URL });
+export const FARMFARM_AXIOS_INSTANCE = Axios.create({baseURL: importData.NEXT_PUBLIC_FARMFARM_SERVER_URL});
 
 export const farmfarmAxiosInstance = <T>(
     config: AxiosRequestConfig,
@@ -15,7 +15,7 @@ export const farmfarmAxiosInstance = <T>(
         ...config,
         ...options,
         cancelToken: source.token,
-    }).then(({ data }) => data);
+    }).then(({data}) => data);
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error

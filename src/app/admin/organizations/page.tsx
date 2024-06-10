@@ -1,13 +1,9 @@
-import Link from "next/link";
+import Organizations from "@/components/admin/organization/Organizations";
 
 export default function OrganizationsPage() {
     return (
-        <div>
-            <div>Organizations Page</div>
-
-            <Link href={"/admin/organizations/1"}>조직 1</Link>
-
-            <Link href={"/admin/organizations/2"}>조직 1</Link>
+        <div className="flex flex-col p-2 space-y-2">
+            <Organizations/>
         </div>
     )
 }

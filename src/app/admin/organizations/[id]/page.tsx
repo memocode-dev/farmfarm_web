@@ -1,7 +1,7 @@
+import Organization from "@/components/admin/organization/Organization";
+
 export default function OrganizationPage() {
     return (
-        <div>
-            <div>Organization Detail Page</div>
-        </div>
+        <Organization/>
     )
 }

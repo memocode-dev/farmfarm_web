@@ -1,7 +1,7 @@
+import AdminDashBoard from "@/components/admin/AdminDashBoard";
+
 export default function AdminPage() {
     return (
-        <>
-            <div>Admin Page</div>
-        </>
-    )
+        <AdminDashBoard/>
+    );
 }
