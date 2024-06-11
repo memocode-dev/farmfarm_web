@@ -150,7 +150,7 @@ const SensorModels = () => {
                     origin: {...sensor_model},
                     id: sensor_model.id,
                     modelName: sensor_model.modelName,
-                    onClick: () => router.push(`/admin/sensors/${sensor_model.id}`)
+                    onClick: () => router.push(`/admin/sensorModels/${sensor_model.id}`)
                 }
             }) : []}/>}
         </div>
