@@ -1,7 +1,7 @@
-export default function SensorsPage() {
+import SensorModels from "@/components/admin/sensor/SensorModels";
+
+export default function SensorModelsPage() {
     return (
-        <div>
-            <div>Sensors Page</div>
-        </div>
+        <SensorModels/>
     )
 }
