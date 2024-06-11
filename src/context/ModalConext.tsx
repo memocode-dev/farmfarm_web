@@ -66,10 +66,10 @@ export const ModalTypes = Object.freeze({
     ORGANIZATION_MEMBER_CREATE: "ORGANIZATION_MEMBER_CREATE",
     ORGANIZATION_HOUSE_CREATE: "ORGANIZATION_HOUSE_CREATE",
 
-    // house
-    HOUSE_CREATE: "HOUSE_CREATE",
+    // greenHouse_create
+    GREENHOUSE_CREATE: "GREENHOUSE_CREATE",
 
-    // house sensor
+    // greenHouse sensorModel
     HOUSE_SENSOR_CREATE: "HOUSE_SENSOR_CREATE",
 
     // measurement_type_create
