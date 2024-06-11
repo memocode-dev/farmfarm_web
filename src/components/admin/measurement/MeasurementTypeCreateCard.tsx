@@ -94,7 +94,7 @@ const MeasurementTypeCreateCard = () => {
                     </div>
 
                     <div className="space-y-1">
-                        <Label htmlFor="unit">Unit</Label>
+                        <Label htmlFor="unit">단위</Label>
                         <Controller
                             name="unit"
                             control={control}

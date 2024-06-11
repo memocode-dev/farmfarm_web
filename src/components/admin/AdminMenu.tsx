@@ -34,8 +34,8 @@ const menus: Menu[] = [
         name: "하우스",
     },
     {
-        path: "/admin/sensors",
-        name: "센서",
+        path: "/admin/sensorModels",
+        name: "센서모델",
     },
     {
         path: "/admin/measurement",

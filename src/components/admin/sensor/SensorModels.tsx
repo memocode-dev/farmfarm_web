@@ -80,11 +80,11 @@ const SensorModels = () => {
                   })}>
                 <div className="flex flex-col space-y-4">
                     <div className="flex space-x-2 items-center">
-                        <Label htmlFor="modelName" className="w-[70px]">센서명</Label>
+                        <Label htmlFor="modelName" className="w-[100px]">센서 모델명</Label>
                         <Input type="text"
                                id="modelName"
-                               placeholder="센서명을 작성해주세요."
-                               {...register("modelName", {required: "센서명을 작성해주세요."})}
+                               placeholder="센서 모델명을 작성해주세요."
+                               {...register("modelName", {required: "센서 모델명을 작성해주세요."})}
                         />
                         <Button>생성</Button>
                     </div>
