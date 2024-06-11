@@ -7,6 +7,7 @@ import {useContext, useEffect} from "react";
 import {useFindAllOrganization} from "@/openapi/api/organizations/organizations";
 import DataTable from "@/components/common/DataTable";
 import {useRouter} from "next/navigation";
+import OrganizationCreateCard from "@/components/admin/organization/OrganizationCreateCard";
 
 const Organizations = () => {
 
@@ -33,12 +34,14 @@ const Organizations = () => {
             <div className="flex justify-end">
                 <Button
                     onClick={() => openModal({name: ModalTypes.ORGANIZATION_CREATE})
-                    }>생성</Button>
+                    }>
+                    생성
+                </Button>
             </div>
 
             {isLoading &&
                 <div className="flex flex-col space-y-3">
-                    {Array.from({length: 14}, (_, index) => (
+                    {Array.from({length: 5}, (_, index) => (
                         <Skeleton key={index} className="h-[45px] w-full"/>
                     ))}
                 </div>
@@ -60,6 +63,8 @@ const Organizations = () => {
                     }
                 }) || []}/>}
             </div>
+
+            <OrganizationCreateCard/>
         </>
     )
 }

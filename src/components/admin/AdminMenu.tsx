@@ -38,8 +38,8 @@ const menus: Menu[] = [
         name: "센서",
     },
     {
-        path: "/admin/sensor_types",
-        name: "센서타입",
+        path: "/admin/measurement",
+        name: "측정타입",
     },
 ]
 
@@ -49,7 +49,14 @@ const AdminMenu = () => {
     const currentPath = usePathname();
 
     const isActive = (path: string) => {
-        return currentPath === path;
+        // 현재경로 === 선택경로
+        if (currentPath === path) {
+            return true;
+        }
+
+        // 현재경로의 하위 동적 경로 표시 : /admin/organizations === /admin/organizations/[id]
+        const detailPaths = ['/admin/organizations', '/admin/measurement'];
+        return detailPaths.includes(path) && currentPath.startsWith(path);
     };
 
     return (

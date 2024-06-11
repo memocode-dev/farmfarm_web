@@ -72,9 +72,9 @@ export const ModalTypes = Object.freeze({
     // house sensor
     HOUSE_SENSOR_CREATE: "HOUSE_SENSOR_CREATE",
 
-    // sensor
-    SENSOR_CREATE: "SENSOR_CREATE",
+    // measurement_type_create
+    MEASUREMENT_TYPE_CREATE: "MEASUREMENT_TYPE_CREATE",
 
-    // admin dash board
+    // dashboard_creat
     DASHBOARD_CREATE: "DASHBOARD_CREATE",
 });
