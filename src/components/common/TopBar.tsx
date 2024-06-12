@@ -4,11 +4,12 @@ import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {Button} from "@/components/ui/button";
 import {LiaBrushSolid} from "react-icons/lia";
 import ColorPicker from "@/components/common/ColorPicker";
-import {useRouter} from "next/navigation";
+import {useParams, usePathname, useRouter} from "next/navigation";
 
 const TopBar = () => {
 
     const router = useRouter();
+    const pathname = usePathname();
 
     const handleTheme = (color: string) => {
         document.documentElement.style.setProperty('--primary', color)
@@ -16,7 +17,7 @@ const TopBar = () => {
     }
 
     return (
-        <div className="fixed top-0 left-0 right-0 p-1 border-b bg-white z-[1000]">
+        <div className="fixed top-0 left-0 right-0 p-1 border-b bg-white z-[10]">
             <div className="flex justify-between items-center">
                 <Popover>
                     <PopoverTrigger asChild>
@@ -42,7 +43,8 @@ const TopBar = () => {
                 </Popover>
 
                 <div className="flex items-center space-x-2">
-                    <Button onClick={() => router.push("/admin")}>대시보드</Button>
+                    <Button className={pathname != "/" ? 'hidden' : 'flex'}
+                            onClick={() => router.push("/admin")}>대시보드</Button>
                 </div>
             </div>
         </div>

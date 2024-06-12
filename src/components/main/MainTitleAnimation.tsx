@@ -29,7 +29,7 @@ const MainTitleAnimation = () => {
         ref.current.forEach(clearTimeout)
         ref.current = []
         set("")
-        ref.current.push(setTimeout(() => set("FARM FARM"), 500))
+        ref.current.push(setTimeout(() => set("FARM FARM"), 5))
     }, [])
 
     useEffect(() => {
