@@ -4,12 +4,18 @@ import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {Button} from "@/components/ui/button";
 import {LiaBrushSolid} from "react-icons/lia";
 import ColorPicker from "@/components/common/ColorPicker";
-import {useParams, usePathname, useRouter} from "next/navigation";
+import {usePathname, useRouter} from "next/navigation";
+import {Sheet, SheetContent, SheetTrigger} from "@/components/ui/sheet";
+import AdminMenu from "@/components/admin/AdminMenu";
+import {useState} from "react";
+import * as React from "react";
+import {BiVerticalBottom} from "react-icons/bi";
 
 const TopBar = () => {
 
     const router = useRouter();
     const pathname = usePathname();
+    const [isOpen, setIsOpen] = useState<boolean>(false);
 
     const handleTheme = (color: string) => {
         document.documentElement.style.setProperty('--primary', color)
@@ -21,7 +27,9 @@ const TopBar = () => {
             <div className="flex justify-between items-center">
                 <Popover>
                     <PopoverTrigger asChild>
-                        <Button variant="outline"><LiaBrushSolid className="w-[19px] h-[19px] mr-1"/>Theme</Button>
+                        <Button variant="outline">
+                            <LiaBrushSolid className="w-[19px] h-[19px] mr-1"/>Theme
+                        </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-fit space-y-3">
                         <div>
@@ -42,9 +50,24 @@ const TopBar = () => {
                     </PopoverContent>
                 </Popover>
 
-                <div className="flex items-center space-x-2">
-                    <Button className={pathname != "/" ? 'hidden' : 'flex'}
-                            onClick={() => router.push("/admin")}>대시보드</Button>
+                <Button className={pathname !== "/" ? 'hidden' : 'flex'}
+                        onClick={() => router.push("/admin")}>대시보드</Button>
+
+                {/* lg 이하 시트 */}
+                <div className={`${pathname !== "/" ? 'flex flex-col flex-1 items-end' : 'hidden'} lg:hidden`}>
+                    <Sheet open={isOpen} onOpenChange={setIsOpen}>
+                        <SheetTrigger>
+                            {!isOpen && <BiVerticalBottom className="h-7 w-7 mr-2"/>}
+                        </SheetTrigger>
+                        <SheetContent
+                            side="top"
+                            className="flex flex-col pt-10"
+                            onClick={() => {
+                                setIsOpen(false)
+                            }}>
+                            <AdminMenu/>
+                        </SheetContent>
+                    </Sheet>
                 </div>
             </div>
         </div>

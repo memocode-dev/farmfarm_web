@@ -52,7 +52,7 @@ const MeasurementTypes = () => {
                     },
                     {
                         accessorKey: "type",
-                        header: "Type",
+                        header: "측정타입",
                     },
                 ]} data={measurement_types ? measurement_types.map(measurement_type => {
                     return {

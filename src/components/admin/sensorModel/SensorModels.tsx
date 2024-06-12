@@ -142,7 +142,7 @@ const SensorModels = () => {
                 },
                 {
                     accessorKey: "modelName",
-                    header: "Name",
+                    header: "센서모델명",
                 },
             ]} data={sensor_models ? sensor_models.map(sensor_model => {
                 return {

@@ -55,7 +55,7 @@ const Organizations = () => {
                     },
                     {
                         accessorKey: "name",
-                        header: "Name",
+                        header: "조직명",
                     },
                 ]} data={organizations?.map((organization) => {
                     return {

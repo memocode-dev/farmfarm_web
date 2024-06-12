@@ -1,12 +1,10 @@
-import {GreenhouseSection, GreenhouseSectionSensorCreateForm} from "@/openapi/model";
+import {GreenhouseSection} from "@/openapi/model";
 import {useFindAllGreenhouseSectionSensor} from "@/openapi/api/greenhouses/greenhouses";
 import {Button} from "@/components/ui/button";
 import {MdSensors} from "react-icons/md";
-import {GrUserAdmin} from "react-icons/gr";
 import {PiCubeLight} from "react-icons/pi";
-import {LiaTemperatureHighSolid} from "react-icons/lia";
-import {WiRaindrop, WiThermometer} from "react-icons/wi";
-import {TbCategory2} from "react-icons/tb";
+import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "@/components/ui/accordion";
+import GreenHouseSectionSync from "@/components/admin/greenHouse/section/GreenHouseSectionSync";
 
 interface GreenhouseSectionProps {
     green_house_section: GreenhouseSection;
@@ -39,41 +37,50 @@ const GreenHouseSection = ({green_house_section, greenHouseId}: GreenhouseSectio
                 </div>
             </div>
             <div
-                className="flex flex-col scale-100 h-[330px] bg-secondary/75 hover:cursor-pointer shadow-lg overflow-y-auto overflow-x-hidden space-y-4 p-4">
-                {green_house_section_sensors?.map((green_house_section_sensor, index) => {
-                    return (
-                        <div key={index} className="flex flex-col">
-                            <div className="flex space-x-1 items-center font-semibold text-sm mb-1">
-                                <MdSensors className="w-4 h-4"/>
-                                <div className="font-bold">센서</div>
-                                <div>{green_house_section_sensor.adminName}</div>
-                            </div>
+                className="flex flex-col scale-100 h-[330px] bg-secondary/60 space-y-2 hover:cursor-pointer shadow-lg overflow-y-auto overflow-x-hidden p-3">
 
-                            <div className="flex space-x-1 items-center font-semibold text-sm mb-1">
-                                <PiCubeLight className="w-4 h-4"/>
-                                <div className="font-bold">센서 모델</div>
-                                <div>{green_house_section_sensor.sensorModel.modelName}</div>
-                            </div>
+                <div className="flex justify-between items-center">
+                    <div className="font-extrabold text-sm">하우스 동 동기화</div>
 
-                            <div className="flex space-x-1 items-center font-semibold text-sm mb-1">
-                                <TbCategory2 className="w-4 h-4"/>
-                                <div className="font-bold">센서 타입</div>
+                    <GreenHouseSectionSync
+                        greenHouseId={greenHouseId}
+                        greenHouseSectionId={green_house_section.id}
+                        status={green_house_section.status!}/>
+                </div>
 
-                                <div className="flex items-center font-semibold text-sm">
-                                    {green_house_section_sensor.sensorModel.measurementTypes.map((type) => {
-                                        return (
-                                            <div className="flex justify-center">
-                                                <div>{type.type}</div>
-                                                {type.type === "temperature" && <WiThermometer className="w-6 h-6"/>}
-                                                {type.type === "humidity" && <WiRaindrop className="w-6 h-6"/>}
-                                            </div>
-                                        )
-                                    })}
-                                </div>
-                            </div>
-                        </div>
-                    )
-                })}
+                <Accordion type="single" collapsible defaultValue="item-1">
+                    <AccordionItem value="item-1" className="border-none">
+                        <AccordionTrigger
+                            className="font-extrabold text-sm py-2 hover:no-underline">센서</AccordionTrigger>
+                        <AccordionContent className="py-1.5 max-h-[186px] overflow-y-auto space-y-2">
+                            {green_house_section_sensors?.map((green_house_section_sensor, index) => {
+                                return (
+                                    <div key={index} className="flex flex-col border bg-secondary rounded p-1">
+                                        <div className="flex space-x-1 items-center font-semibold text-sm">
+                                            <MdSensors className="w-4 h-4"/>
+                                            <div className="font-semibold">센서</div>
+                                            <div>{green_house_section_sensor.adminName}</div>
+                                        </div>
+
+                                        <div className="flex space-x-1 items-center font-semibold text-sm">
+                                            <PiCubeLight className="w-4 h-4"/>
+                                            <div className="font-semibold">센서 모델</div>
+                                            <div>{green_house_section_sensor.sensorModel.modelName}</div>
+                                        </div>
+                                    </div>
+                                )
+                            })}
+                        </AccordionContent>
+                    </AccordionItem>
+
+                    <AccordionItem value="item-2" className="border-none">
+                        <AccordionTrigger
+                            className="font-extrabold text-sm py-2 hover:no-underline">제어</AccordionTrigger>
+                        <AccordionContent className="py-1.5 max-h-[186px] overflow-y-auto space-y-4">
+                            <div>준비중입니다.</div>
+                        </AccordionContent>
+                    </AccordionItem>
+                </Accordion>
             </div>
         </>
     )

@@ -8,6 +8,8 @@ import DataTable from "@/components/common/DataTable";
 import {useFindAllGreenhouses} from "@/openapi/api/greenhouses/greenhouses";
 import {useRouter} from "next/navigation";
 import GreenHouseCreateCard from "@/components/admin/greenHouse/GreenHouseCreateCard";
+import formatDate from "@/utils/formatDate";
+import GreenHouseSync from "@/components/admin/greenHouse/GreenHouseSync";
 
 const GreenHouses = () => {
 
@@ -60,15 +62,28 @@ const GreenHouses = () => {
                     },
                     {
                         accessorKey: "createdAt",
-                        header: "CreatedAt",
+                        header: "생성일",
+                        cell: ({cell}) => formatDate(cell.getValue<string>())
                     },
                     {
                         accessorKey: "updatedAt",
-                        header: "UpdatedAt",
+                        header: "수정일",
+                        cell: ({cell}) => formatDate(cell.getValue<string>())
                     },
                     {
                         accessorKey: "status",
-                        header: "Status",
+                        header: "상태",
+                    },
+                    {
+                        accessorKey: "greenHouseSync",
+                        header: "하우스 동기화",
+                        cell: ({row}) => {
+                            const greenHouseId = row.original.id;
+                            const status = row.original.status;
+                            return (
+                                <GreenHouseSync greenHouseId={greenHouseId} status={status!}/>
+                            )
+                        }
                     },
                 ]} data={green_houses?.map(green_house => {
                     return {
