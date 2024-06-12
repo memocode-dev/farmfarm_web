@@ -109,11 +109,11 @@ const GreenHouseSectionSensorCreateCard = () => {
                       })}
                 >
                     <div className="flex items-center space-x-2">
-                        <Label htmlFor="adminName" className="w-[60px]">관리자명</Label>
+                        <Label htmlFor="adminName" className="w-[50px]">센서명</Label>
                         <Input type="text"
                                id="adminName"
-                               placeholder="관리자명을 작성해주세요."
-                               {...register("adminName", {required: "관리자명을 작성해주세요."})}
+                               placeholder="센서명을 작성해주세요."
+                               {...register("adminName", {required: "센서명을 작성해주세요."})}
                         />
                     </div>
 
@@ -136,14 +136,14 @@ const GreenHouseSectionSensorCreateCard = () => {
                         </Select>
                     </div>
 
-                    <div className="space-y-1">
+                    <div className="space-y-2">
                         <Label htmlFor="sensorModelId">센서 모델</Label>
                         <Controller
                             name="sensorModelId"
                             control={control}
                             rules={{required: true}}
                             render={({field}) => (
-                                <div>
+                                <div className="p-1 h-[100px] overflow-y-auto grid grid-cols-2 gap-2">
                                     {sensor_models?.map((sensor_model, index) => (
                                         <div key={index} className="flex items-center space-x-1">
                                             <Checkbox
