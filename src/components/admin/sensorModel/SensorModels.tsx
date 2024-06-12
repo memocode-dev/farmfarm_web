@@ -119,7 +119,6 @@ const SensorModels = () => {
                                                 {measurement_type.type}
                                             </label>
                                         </div>
-
                                     )}
                                 />
                             ))}

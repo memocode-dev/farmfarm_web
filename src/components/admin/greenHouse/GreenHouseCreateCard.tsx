@@ -67,7 +67,7 @@ const GreenHouseCreateCard = () => {
 
     return (
         <Dialog
-            modal={false}
+            modal={true}
             open={modalState[ModalTypes.GREENHOUSE_CREATE]?.isVisible}
             onOpenChange={(open) => {
                 if (!open) {

@@ -63,6 +63,7 @@ const AdminMenu = () => {
         menus.map((menu, index) => {
             return (
                 <Button
+                    key={index}
                     variant={isActive(menu.path) ? "default" : "ghost"}
                     onClick={() => {
                         router.push(menu.path)
