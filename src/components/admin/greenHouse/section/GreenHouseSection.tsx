@@ -11,7 +11,9 @@ interface GreenhouseSectionProps {
     greenHouseId: string;
 }
 
-const GreenHouseSection = ({green_house_section, greenHouseId}: GreenhouseSectionProps) => {
+const GreenHouseSection = ({
+                               green_house_section, greenHouseId,
+                           }: GreenhouseSectionProps) => {
 
     const {isError, isLoading, data: green_house_section_sensors, refetch: findAllGreenhouseSectionSensorRefetch} =
         useFindAllGreenhouseSectionSensor(greenHouseId, green_house_section.id, {
@@ -41,11 +43,11 @@ const GreenHouseSection = ({green_house_section, greenHouseId}: GreenhouseSectio
 
                 <div className="flex justify-between items-center">
                     <div className="font-extrabold text-sm">하우스 동 동기화</div>
-
                     <GreenHouseSectionSync
                         greenHouseId={greenHouseId}
                         greenHouseSectionId={green_house_section.id}
-                        status={green_house_section.status!}/>
+                        greenHouseSectionStatus={green_house_section.status!}
+                    />
                 </div>
 
                 <Accordion type="single" collapsible defaultValue="item-1">
@@ -77,7 +79,7 @@ const GreenHouseSection = ({green_house_section, greenHouseId}: GreenhouseSectio
                         <AccordionTrigger
                             className="font-extrabold text-sm py-2 hover:no-underline">제어</AccordionTrigger>
                         <AccordionContent className="py-1.5 max-h-[186px] overflow-y-auto space-y-4">
-                            <div>준비중입니다.</div>
+                            <div>준비중입니다..</div>
                         </AccordionContent>
                     </AccordionItem>
                 </Accordion>

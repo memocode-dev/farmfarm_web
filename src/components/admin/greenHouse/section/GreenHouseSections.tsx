@@ -74,7 +74,10 @@ const GreenHouseSections = () => {
                             <div
                                 className={`flex flex-col ${createdGreenHouseSectionId === green_house_section.id ? 'slide-in-up' : ''}`}
                                 key={index}>
-                                <GreenHouseSection green_house_section={green_house_section} greenHouseId={greenHouseId as string}/>
+                                <GreenHouseSection
+                                    green_house_section={green_house_section}
+                                    greenHouseId={greenHouseId as string}
+                                />
                             </div>
                         )
                     })}

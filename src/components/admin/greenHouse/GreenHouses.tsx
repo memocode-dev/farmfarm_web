@@ -16,7 +16,7 @@ const GreenHouses = () => {
     const router = useRouter();
     const {openModal, modalState} = useContext(ModalContext);
 
-    const {isError, isLoading, data: green_houses, refetch} =
+    const {isError, isLoading, data: green_houses, refetch: findAllGreenhousesRefetch} =
         useFindAllGreenhouses({
             query: {
                 queryKey: ['GreenHouses'],
@@ -25,7 +25,7 @@ const GreenHouses = () => {
 
     useEffect(() => {
         if (modalState[ModalTypes.GREENHOUSE_CREATE]?.isVisible === false) {
-            refetch()
+            findAllGreenhousesRefetch()
         }
     }, [modalState[ModalTypes.GREENHOUSE_CREATE]]);
 
@@ -33,7 +33,7 @@ const GreenHouses = () => {
         return (
             <div className="flex space-x-4">
                 <div>잠시후에 다시 시도해주세요</div>
-                <Button onClick={() => refetch()}>재시도</Button>
+                <Button onClick={() => findAllGreenhousesRefetch()}>재시도</Button>
             </div>
         )
     }
@@ -81,7 +81,7 @@ const GreenHouses = () => {
                             const greenHouseId = row.original.id;
                             const status = row.original.status;
                             return (
-                                <GreenHouseSync greenHouseId={greenHouseId} status={status!}/>
+                                <GreenHouseSync greenHouseId={greenHouseId} greenHouseStatus={status!}/>
                             )
                         }
                     },

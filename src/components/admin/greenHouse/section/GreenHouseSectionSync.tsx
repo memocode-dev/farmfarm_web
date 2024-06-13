@@ -1,50 +1,53 @@
-import {GrSync} from "react-icons/gr";
 import {toast} from "@/components/ui/use-toast";
 import {useSyncGreenhouseSection} from "@/openapi/api/sync-greenhouses/sync-greenhouses";
-import {Switch} from "@/components/ui/switch";
 import {useState} from "react";
 import {Button} from "@/components/ui/button";
+import {RiLoader3Fill, RiRefreshLine} from "react-icons/ri";
+import {useFindAllGreenhouseSection} from "@/openapi/api/greenhouses/greenhouses";
 
 interface GreenHouseSectionSyncProps {
     greenHouseId: string;
-    status: String;
+    greenHouseSectionStatus: string;
     greenHouseSectionId: string;
 }
 
-const GreenHouseSectionSync = ({greenHouseId, greenHouseSectionId, status}: GreenHouseSectionSyncProps) => {
+const GreenHouseSectionSync = ({
+                                   greenHouseId,
+                                   greenHouseSectionId,
+                                   greenHouseSectionStatus,
+                               }: GreenHouseSectionSyncProps) => {
 
-    const [isSync, setIsSync] = useState(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [currentStatus, setCurrentStatus] = useState<string>(greenHouseSectionStatus);
 
-    const handleToggle = () => {
-        setIsSync(!isSync);
-
-        if (!isSync) {
-            HandleSubmit();
-        }
-    };
-
-    const handleUnSync = () => {
-        setIsSync(false);
-        // 동기화 해제 api 연결 추가하기
-    };
-
-    const handleSync = () => {
-        setIsSync(true);
-        HandleSubmit();
-    };
-
-    const HandleSubmit = () => greenHouseSectionSyncToLocalDevice({
-        greenhouseId: greenHouseId,
-        greenhouseSectionId: greenHouseSectionId,
-    })
+    const {refetch: findAllGreenhouseSectionRefetch} =
+        useFindAllGreenhouseSection(greenHouseId, {
+            query: {
+                queryKey: ['GreenHouseSectionSync', greenHouseId, greenHouseSectionId],
+            },
+        });
 
     const {mutate: greenHouseSectionSyncToLocalDevice} = useSyncGreenhouseSection({
         mutation: {
-            onSuccess: () => {
+            onSuccess: async () => {
                 toast({
-                    title: "하우스 동 동기화",
-                    description: "성공적으로 하우스 동이 동기화되었습니다.",
-                })
+                    title: "하우스 동 동기화 중..",
+                    description: "잠시만 기다려주세요.",
+                });
+
+                setIsLoading(true); // 로딩 스피너 표시
+                await new Promise(resolve => setTimeout(resolve, 5000)); // 5초 이후 리패치
+                const result = await findAllGreenhouseSectionRefetch();
+                const filteredSectionStatus = result.data?.find((section: any) => section.id === greenHouseSectionId)?.status; // 해당 동 id로 상태 조회 후 업데이트
+                setCurrentStatus(filteredSectionStatus!);
+                if (filteredSectionStatus !== "HEALTHY") {
+                    toast({
+                        title: `하우스 동 상태 : ${filteredSectionStatus}`,
+                        description: "하우스 동 동기화에 실패하였습니다. 관리자에게 문의하세요.",
+                        variant: "destructive",
+                    })
+                }
+                setIsLoading(false); // 로딩 스피너 끝
             },
             onError: (error) => {
                 console.log(error);
@@ -52,49 +55,34 @@ const GreenHouseSectionSync = ({greenHouseId, greenHouseSectionId, status}: Gree
                     title: "하우스 동 동기화 실패",
                     description: "에러 내용 표시",
                     variant: "destructive",
-                })
+                });
             },
         }
-    })
+    });
+
+    const HandleSubmit = () => greenHouseSectionSyncToLocalDevice({
+        greenhouseId: greenHouseId,
+        greenhouseSectionId: greenHouseSectionId,
+    });
 
     return (
-        <div
-            className="flex items-center -space-x-1"
-            onClick={(event) => {
-                event.stopPropagation()
-            }}>
-            <Button
-                disabled={status !== "HEALTHY"}
-                variant={null}
-                onClick={handleUnSync}
-                className="p-1">
-                <div className="relative">
-                    <div className="absolute top-[6px] -left-[2px] block -rotate-[40deg]">
-                        <div className="p-[0.5px] w-[20px] bg-white"></div>
-                        <div
-                            className={`p-[1px] w-[20px] ${!isSync && status === "HEALTHY" ? 'bg-primary' : 'bg-[#384252]'}`}></div>
-                        <div className="p-[0.5px] w-[20px] bg-white"></div>
-                    </div>
-                    <GrSync
-                        className={`w-[16px] h-[16px] ${!isSync && status === "HEALTHY" ? 'text-primary' : 'text-[#384252]'}`}/>
-                </div>
-            </Button>
-
-            <Switch id="greenHouseSync"
-                    disabled={status !== "HEALTHY"}
-                    checked={isSync}
-                    onCheckedChange={handleToggle}
-                    className="scale-75 m-0"/>
-
-            <Button
-                disabled={status !== "HEALTHY"}
-                variant={null}
-                onClick={handleSync}
-                className="p-1">
-                <GrSync className={`w-[16px] h-[16px] ${isSync ? 'text-primary' : 'text-[#384252]'}`}/>
-            </Button>
+        <div className="flex justify-center"
+             onClick={(event) => {
+                 event.stopPropagation();
+             }}>
+            {isLoading ?
+                <RiLoader3Fill className="w-7 h-7 animate-spin text-gray-500 my-1.5"/>
+                :
+                <Button
+                    className="p-0"
+                    variant={null}
+                    onClick={HandleSubmit}
+                >
+                    <RiRefreshLine className={`${currentStatus === "HEALTHY" ? 'text-primary' : ''} w-6 h-6 mr-0.5`}/>
+                </Button>
+            }
         </div>
-    )
+    );
 }
 
 export default GreenHouseSectionSync;
