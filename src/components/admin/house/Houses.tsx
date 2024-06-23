@@ -9,6 +9,7 @@ import {useRouter} from "next/navigation";
 import formatDate from "@/utils/formatDate";
 import {useFindAllHouses} from "@/openapi/api/houses/houses";
 import HouseSync from "@/components/admin/house/HouseSync";
+import HouseCreateCard from "@/components/admin/house/HouseCreateCard";
 
 const Houses = () => {
 
@@ -25,10 +26,10 @@ const Houses = () => {
 
 
     useEffect(() => {
-        if (modalState[ModalTypes.GREENHOUSE_CREATE]?.isVisible === false) {
+        if (modalState[ModalTypes.HOUSE_CREATE]?.isVisible === false) {
             findAllhousesRefetch()
         }
-    }, [modalState[ModalTypes.GREENHOUSE_CREATE]]);
+    }, [modalState[ModalTypes.HOUSE_CREATE]]);
 
     if (isError) {
         return (
@@ -44,7 +45,7 @@ const Houses = () => {
             <div className="flex flex-col p-2 space-y-2">
                 <div className="flex justify-end">
                     <Button
-                        onClick={() => openModal({name: ModalTypes.GREENHOUSE_CREATE})}>
+                        onClick={() => openModal({name: ModalTypes.HOUSE_CREATE})}>
                         생성
                     </Button>
                 </div>
@@ -60,6 +61,10 @@ const Houses = () => {
                     {
                         accessorKey: "id",
                         header: "Id",
+                    },
+                    {
+                        accessorKey: "name"
+                        , header: "하우스명"
                     },
                     {
                         accessorKey: "createdAt",
@@ -94,7 +99,7 @@ const Houses = () => {
                 }) || []}/>}
             </div>
 
-            {/*<GreenHouseCreateCard/>*/}
+            <HouseCreateCard/>
         </>
     )
 }
