@@ -127,7 +127,7 @@ const HouseSections = ({houseId}: HouseSectionsProps) => {
                     }
 
                     <div
-                        className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-12 sm:py-5">
+                        className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-12 sm:py-5 px-5">
                         {houseSections?.map((houseSection, index) => {
                             return (
                                 <div

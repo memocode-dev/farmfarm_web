@@ -86,7 +86,7 @@ const HouseSectionSync = ({
                     variant={null}
                     onClick={HandleSync}
                 >
-                    <RiRefreshLine className={`${currentStatus === "HEALTHY" ? 'text-primary' : 'text-gray-400'} w-6 h-6 mr-0.5`}/>
+                    <RiRefreshLine className={`${currentStatus === "HEALTHY" ? 'text-primary' : 'text-gray-400'} w-7 h-7 mr-0.5`}/>
                 </Button>
             }
         </div>

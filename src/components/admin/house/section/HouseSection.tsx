@@ -1,5 +1,3 @@
-import {MdSensors} from "react-icons/md";
-import {PiCubeLight} from "react-icons/pi";
 import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "@/components/ui/accordion";
 import {FindAllHouseSectionsResponseHouseSection} from "@/openapi/model";
 import HouseSectionSync from "@/components/admin/house/section/HouseSectionSync";
@@ -9,6 +7,7 @@ import {ToastAction} from "@/components/ui/toast";
 import {ModalContext, ModalTypes} from "@/context/ModalConext";
 import {useContext} from "react";
 import HouseSectionUpdateModal from "@/components/admin/house/section/HouseSectionUpdateModal";
+import HouseSectionSensor from "@/components/admin/house/section/sensor/HouseSectionSensor";
 
 interface HouseSectionProps {
     houseSection: FindAllHouseSectionsResponseHouseSection;
@@ -46,25 +45,16 @@ const HouseSection = ({houseSection, houseId, onDeleteSubmit}: HouseSectionProps
                         <AccordionItem value="item-1" className="border-none">
                             <AccordionTrigger
                                 className="py-2 hover:no-underline">센서</AccordionTrigger>
-                            <AccordionContent className="py-1.5 max-h-[175px] overflow-y-auto space-y-2">
+                            <AccordionContent
+                                className="py-1.5 max-h-[100px] xs:max-h-[175px] overflow-y-auto space-y-2">
                                 {houseSection.sensors?.map((sensor, index) => {
                                     return (
-                                        <div key={index} className="flex flex-col border bg-secondary rounded p-2">
-                                            <div className="flex space-x-3 items-center">
-                                                <div className="flex space-x-1 items-center">
-                                                    <MdSensors className="w-4 h-4"/>
-                                                    <div>센서</div>
-                                                </div>
-                                                <div className="font-bold">{sensor.nameForUser}</div>
-                                            </div>
-
-                                            <div className="flex space-x-3 items-center">
-                                                <div className="flex space-x-1 items-center">
-                                                    <PiCubeLight className="w-4 h-4"/>
-                                                    <div>센서 모델</div>
-                                                </div>
-                                                <div className="font-bold">{sensor.sensorModelInfo?.name}</div>
-                                            </div>
+                                        <div key={index}
+                                             className="flex justify-between border bg-secondary rounded py-2 px-3">
+                                            <HouseSectionSensor
+                                                houseId={houseId}
+                                                houseSectionId={houseSection.id!}
+                                                sensor={sensor}/>
                                         </div>
                                     )
                                 })}
