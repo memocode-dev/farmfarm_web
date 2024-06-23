@@ -91,10 +91,10 @@ const Houses = () => {
                             )
                         }
                     },
-                ]} data={houses.map(green_house => {
+                ]} data={houses.map(house => {
                     return {
-                        ...green_house,
-                        onClick: () => router.push(`/admin/houses/${green_house.id}`)
+                        ...house,
+                        onClick: () => router.push(`/admin/houses/${house.id}`)
                     }
                 }) || []}/>}
             </div>
