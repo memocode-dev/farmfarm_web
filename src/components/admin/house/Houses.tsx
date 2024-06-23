@@ -9,14 +9,14 @@ import {useRouter} from "next/navigation";
 import formatDate from "@/utils/formatDate";
 import {useFindAllHouses} from "@/openapi/api/houses/houses";
 import HouseSync from "@/components/admin/house/HouseSync";
-import HouseCreateCard from "@/components/admin/house/HouseCreateCard";
+import HouseCreateModal from "@/components/admin/house/HouseCreateModal";
 
 const Houses = () => {
 
     const router = useRouter();
     const {openModal, modalState} = useContext(ModalContext);
 
-    const {isError, isLoading, data: housesArrayData, refetch: findAllhousesRefetch} =
+    const {isError, isLoading, data: housesArrayData, refetch: findAllHousesRefetch} =
         useFindAllHouses({
             query: {
                 queryKey: ['Houses'],
@@ -27,7 +27,7 @@ const Houses = () => {
 
     useEffect(() => {
         if (modalState[ModalTypes.HOUSE_CREATE]?.isVisible === false) {
-            findAllhousesRefetch()
+            findAllHousesRefetch()
         }
     }, [modalState[ModalTypes.HOUSE_CREATE]]);
 
@@ -35,7 +35,7 @@ const Houses = () => {
         return (
             <div className="flex space-x-4">
                 <div>잠시후에 다시 시도해주세요</div>
-                <Button onClick={() => findAllhousesRefetch()}>재시도</Button>
+                <Button onClick={() => findAllHousesRefetch()}>재시도</Button>
             </div>
         )
     }
@@ -99,7 +99,7 @@ const Houses = () => {
                 }) || []}/>}
             </div>
 
-            <HouseCreateCard/>
+            <HouseCreateModal/>
         </>
     )
 }

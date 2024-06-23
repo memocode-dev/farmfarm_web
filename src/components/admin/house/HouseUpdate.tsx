@@ -16,9 +16,10 @@ interface HouseUpdateCardProps {
     houseId: string;
     house: FindHouseResponse;
     isLoading: boolean;
+    findHouseRefetch: () => void;
 }
 
-const HouseUpdateCard = ({houseId, house, isLoading}: HouseUpdateCardProps) => {
+const HouseUpdate = ({houseId, house, isLoading, findHouseRefetch}: HouseUpdateCardProps) => {
 
     const router = useRouter();
 
@@ -51,8 +52,9 @@ const HouseUpdateCard = ({houseId, house, isLoading}: HouseUpdateCardProps) => {
 
     const {mutate: updateHouse} = useUpdateHouse({
         mutation: {
-            onSuccess: () => {
+            onSuccess: async () => {
                 toast({description: "성공적으로 하우스가 수정되었습니다."})
+                await findHouseRefetch();
             },
             onError: (error) => {
                 console.log(error);
@@ -75,7 +77,7 @@ const HouseUpdateCard = ({houseId, house, isLoading}: HouseUpdateCardProps) => {
         }
     })
 
-    const onDeleteSubmit = () => deleteHouse({houseId: houseId ? houseId : "",});
+    const onDeleteSubmit = () => deleteHouse({houseId: houseId});
 
     const {
         register,
@@ -98,7 +100,7 @@ const HouseUpdateCard = ({houseId, house, isLoading}: HouseUpdateCardProps) => {
     }, [house]);
 
     return (
-        <Card className="w-full max-w-2xl">
+        <Card className="w-full lg:max-w-2xl">
             <CardHeader>
                 <CardTitle>하우스 정보</CardTitle>
             </CardHeader>
@@ -176,4 +178,4 @@ const HouseUpdateCard = ({houseId, house, isLoading}: HouseUpdateCardProps) => {
     )
 }
 
-export default HouseUpdateCard;
+export default HouseUpdate;

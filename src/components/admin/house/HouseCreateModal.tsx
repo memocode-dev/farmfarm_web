@@ -9,7 +9,7 @@ import {CreateHouseForm} from "@/openapi/model";
 import {useCreateHouse} from "@/openapi/api/houses/houses";
 import {Input} from "@/components/ui/input";
 
-const HouseCreateCard = () => {
+const HouseCreateModal = () => {
 
     const {modalState, closeModal} = useContext(ModalContext);
 
@@ -82,4 +82,4 @@ const HouseCreateCard = () => {
 }
 
 
-export default HouseCreateCard;
+export default HouseCreateModal;

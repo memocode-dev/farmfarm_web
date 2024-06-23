@@ -2,21 +2,19 @@
 
 import {useParams} from 'next/navigation';
 import {Button} from "@/components/ui/button";
-import {Skeleton} from "@/components/ui/skeleton";
 import {useFindHouse} from "@/openapi/api/houses/houses";
-import HouseUpdateCard from "@/components/admin/house/HouseUpdateCard";
+import HouseUpdate from "@/components/admin/house/HouseUpdate";
+import HouseSections from "@/components/admin/house/section/HouseSections";
 
 const House = () => {
 
     const params = useParams();
     const houseId = params.id as string;
 
-    // const [createdHouseSectionId, setCreatedHouseSectionId] = useState<string>(); // 새로 생성된 동 id
-
     const {isError, isLoading, data: house, refetch: findHouseRefetch} =
         useFindHouse(houseId, {
             query: {
-                queryKey: ['House'],
+                queryKey: ['House', houseId],
             },
         });
 
@@ -30,63 +28,14 @@ const House = () => {
     }
 
     return (
-        <>
-            <div className="flex-1 p-2">
-                {/*<div className="flex justify-end space-x-2">*/}
-                {/*    <Button*/}
-                {/*        variant="secondary"*/}
-                {/*        className="hover:bg-primary hover:text-primary-foreground"*/}
-                {/*        onClick={() => openModal({*/}
-                {/*            name: ModalTypes.GREENHOUSE_SECTION_CREATE,*/}
-                {/*            data: greenHouseId as string,*/}
-                {/*        })}*/}
-                {/*    >*/}
-                {/*        하우스 동 생성*/}
-                {/*    </Button>*/}
-
-                {/*    <Button*/}
-                {/*        variant="secondary"*/}
-                {/*        className="hover:bg-primary hover:text-primary-foreground"*/}
-                {/*        onClick={() => openModal({*/}
-                {/*            name: ModalTypes.GREENHOUSE_SECTION_SENSOR_CREATE,*/}
-                {/*            data: greenHouseId as string,*/}
-                {/*        })}*/}
-                {/*    >*/}
-                {/*        하우스 동 센서 생성*/}
-                {/*    </Button>*/}
-                {/*</div>*/}
-
-                <div className="flex justify-center">
-                    <HouseUpdateCard houseId={houseId} house={house!} isLoading={isLoading}/>
-                </div>
-
-                <div
-                    className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-12 p-5">
-
-                    {isLoading &&
-                        Array.from({length: 10}, (_, index) => (
-                            <Skeleton key={index} className="min-h-[330px]"/>
-                        ))
-                    }
-
-                    {/*{green_house_sections && green_house_sections?.map((green_house_section, index) => {*/}
-                    {/*    return (*/}
-                    {/*        <div*/}
-                    {/*            className={`flex flex-col ${createdGreenHouseSectionId === green_house_section.id ? 'slide-in-up' : ''}`}*/}
-                    {/*            key={index}>*/}
-                    {/*            <GreenHouseSection*/}
-                    {/*                green_house_section={green_house_section}*/}
-                    {/*                greenHouseId={greenHouseId as string}*/}
-                    {/*            />*/}
-                    {/*        </div>*/}
-                    {/*    )*/}
-                    {/*})}*/}
-                </div>
+        <div className="flex-1 p-5 space-y-5">
+            <div className="flex justify-center">
+                <HouseUpdate houseId={houseId} house={house!} isLoading={isLoading}
+                             findHouseRefetch={findHouseRefetch}/>
             </div>
 
-            {/*<GreenHouseSectionCreateCard setCreatedGreenHouseSectionId={setCreatedGreenHouseSectionId}/>*/}
-            {/*<GreenHouseSectionSensorCreateCard/>*/}
-        </>
+            <HouseSections houseId={houseId}/>
+        </div>
     )
 }
 
