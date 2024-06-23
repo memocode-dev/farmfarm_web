@@ -1,28 +1,27 @@
 import {toast} from "@/components/ui/use-toast";
-import {useSyncGreenhouse} from "@/openapi/api/sync-greenhouses/sync-greenhouses";
 import {useState} from "react";
 import {Button} from "@/components/ui/button";
 import {RiLoader3Fill, RiRefreshLine} from "react-icons/ri";
-import {useFindAllGreenhouses} from "@/openapi/api/greenhouses/greenhouses";
+import {useFindAllHouses, useSyncHouse} from "@/openapi/api/houses/houses";
 
-interface GreenHouseSyncProps {
-    greenHouseId: string;
-    greenHouseStatus: string;
+interface HouseSyncProps {
+    houseId: string;
+    houseStatus: string;
 }
 
-const GreenHouseSync = ({greenHouseId, greenHouseStatus}: GreenHouseSyncProps) => {
+const HouseSync = ({houseId, houseStatus}: HouseSyncProps) => {
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [currentStatus, setCurrentStatus] = useState<string>(greenHouseStatus);
+    const [currentStatus, setCurrentStatus] = useState<string>(houseStatus);
 
-    const {data: green_houses, refetch: findAllGreenhousesRefetch} =
-        useFindAllGreenhouses({
+    const {data: housesArrayData, refetch: findAllHousesRefetch} =
+        useFindAllHouses({
             query: {
-                queryKey: ['GreenHouseSync', greenHouseId],
+                queryKey: ['HouseSync', houseId],
             },
         });
 
-    const {mutate: greenHouseSyncToLocalDevice} = useSyncGreenhouse({
+    const {mutate: houseSyncToLocalDevice} = useSyncHouse({
         mutation: {
             onSuccess: async () => {
                 toast({
@@ -32,8 +31,8 @@ const GreenHouseSync = ({greenHouseId, greenHouseStatus}: GreenHouseSyncProps) =
 
                 setIsLoading(true); // 로딩 스피너 표시
                 await new Promise(resolve => setTimeout(resolve, 5000)); // 5초 이후 리패치
-                const result = await findAllGreenhousesRefetch();
-                const filteredHouseStatus = result.data?.find((house: any) => house.id === greenHouseId)?.status; // 해당 하우스 id로 상태 조회 후 업데이트
+                const result = await findAllHousesRefetch();
+                const filteredHouseStatus = result.data?.houses?.find((house: any) => house.id === houseId)?.syncStatus; // 해당 하우스 id로 상태 조회 후 업데이트
                 setCurrentStatus(filteredHouseStatus!);
                 if (filteredHouseStatus !== "HEALTHY") {
                     toast({
@@ -56,12 +55,12 @@ const GreenHouseSync = ({greenHouseId, greenHouseStatus}: GreenHouseSyncProps) =
         }
     });
 
-    const HandleSubmit = () => greenHouseSyncToLocalDevice({
-        greenhouseId: greenHouseId
+    const HandleSubmit = () => houseSyncToLocalDevice({
+        houseId: houseId
     })
 
     return (
-        <div className="flex justify-center"
+        <div className="flex"
              onClick={(event) => {
                  event.stopPropagation();
              }}>
@@ -71,6 +70,7 @@ const GreenHouseSync = ({greenHouseId, greenHouseStatus}: GreenHouseSyncProps) =
                 <Button
                     variant="ghost"
                     onClick={HandleSubmit}
+                    className="p-0"
                 >
                     <RiRefreshLine className={`${currentStatus === "HEALTHY" ? 'text-primary' : ''} w-6 h-6`}/>
                 </Button>
@@ -79,4 +79,4 @@ const GreenHouseSync = ({greenHouseId, greenHouseStatus}: GreenHouseSyncProps) =
     );
 }
 
-export default GreenHouseSync;
+export default HouseSync;

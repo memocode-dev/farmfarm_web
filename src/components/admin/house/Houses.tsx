@@ -5,27 +5,28 @@ import {ModalContext, ModalTypes} from "@/context/ModalConext";
 import {Button} from "@/components/ui/button";
 import {Skeleton} from "@/components/ui/skeleton";
 import DataTable from "@/components/common/DataTable";
-import {useFindAllGreenhouses} from "@/openapi/api/greenhouses/greenhouses";
 import {useRouter} from "next/navigation";
-import GreenHouseCreateCard from "@/components/admin/greenHouse/GreenHouseCreateCard";
 import formatDate from "@/utils/formatDate";
-import GreenHouseSync from "@/components/admin/greenHouse/GreenHouseSync";
+import {useFindAllHouses} from "@/openapi/api/houses/houses";
+import HouseSync from "@/components/admin/house/HouseSync";
 
-const GreenHouses = () => {
+const Houses = () => {
 
     const router = useRouter();
     const {openModal, modalState} = useContext(ModalContext);
 
-    const {isError, isLoading, data: green_houses, refetch: findAllGreenhousesRefetch} =
-        useFindAllGreenhouses({
+    const {isError, isLoading, data: housesArrayData, refetch: findAllhousesRefetch} =
+        useFindAllHouses({
             query: {
-                queryKey: ['GreenHouses'],
+                queryKey: ['Houses'],
             },
         });
+    const houses = housesArrayData?.houses;
+
 
     useEffect(() => {
         if (modalState[ModalTypes.GREENHOUSE_CREATE]?.isVisible === false) {
-            findAllGreenhousesRefetch()
+            findAllhousesRefetch()
         }
     }, [modalState[ModalTypes.GREENHOUSE_CREATE]]);
 
@@ -33,7 +34,7 @@ const GreenHouses = () => {
         return (
             <div className="flex space-x-4">
                 <div>잠시후에 다시 시도해주세요</div>
-                <Button onClick={() => findAllGreenhousesRefetch()}>재시도</Button>
+                <Button onClick={() => findAllhousesRefetch()}>재시도</Button>
             </div>
         )
     }
@@ -55,7 +56,7 @@ const GreenHouses = () => {
                 </div>
                 }
 
-                {!isLoading && <DataTable columns={[
+                {!isLoading && houses && <DataTable columns={[
                     {
                         accessorKey: "id",
                         header: "Id",
@@ -71,31 +72,31 @@ const GreenHouses = () => {
                         cell: ({cell}) => formatDate(cell.getValue<string>())
                     },
                     {
-                        accessorKey: "status",
+                        accessorKey: "syncStatus",
                         header: "상태",
                     },
                     {
-                        accessorKey: "greenHouseSync",
+                        accessorKey: "houseSync",
                         header: "하우스 동기화",
                         cell: ({row}) => {
-                            const greenHouseId = row.original.id;
-                            const status = row.original.status;
+                            const houseId = row.original.id;
+                            const syncStatus = row.original.syncStatus;
                             return (
-                                <GreenHouseSync greenHouseId={greenHouseId} greenHouseStatus={status!}/>
+                                <HouseSync houseId={houseId || ""} houseStatus={syncStatus || ""}/>
                             )
                         }
                     },
-                ]} data={green_houses?.map(green_house => {
+                ]} data={houses.map(green_house => {
                     return {
                         ...green_house,
-                        onClick: () => router.push(`/admin/greenHouses/${green_house.id}`)
+                        onClick: () => router.push(`/admin/houses/${green_house.id}`)
                     }
                 }) || []}/>}
             </div>
 
-            <GreenHouseCreateCard/>
+            {/*<GreenHouseCreateCard/>*/}
         </>
     )
 }
 
-export default GreenHouses;
+export default Houses;

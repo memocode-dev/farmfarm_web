@@ -30,7 +30,7 @@ const menus: Menu[] = [
         name: "조직",
     },
     {
-        path: "/admin/greenHouses",
+        path: "/admin/houses",
         name: "하우스",
     },
     {
@@ -55,7 +55,7 @@ const AdminMenu = () => {
         }
 
         // 현재경로의 하위 동적 경로 표시 : /admin/organizations === /admin/organizations/[id]
-        const detailPaths = ['/admin/organizations', '/admin/measurement', '/admin/greenHouses', '/admin/sensorModels'];
+        const detailPaths = ['/admin/organizations', '/admin/measurement', '/admin/houses', '/admin/sensorModels'];
         return detailPaths.includes(path) && currentPath.startsWith(path);
     };
 
