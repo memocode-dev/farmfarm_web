@@ -1,6 +1,7 @@
 'use client'
 
 import React, {ReactNode, useState} from "react";
+import {FindAllHouseSectionsResponseHouseSectionSensor} from "@/openapi/model";
 
 interface IModalContext {
     modalState: IModal;
@@ -14,9 +15,15 @@ export enum ModalTypes {
 
     // house
     HOUSE_CREATE = "HOUSE_CREATE",
+
+    // houseSection
     HOUSE_SECTION_CREATE = "HOUSE_SECTION_CREATE",
     HOUSE_SECTION_UPDATE = "HOUSE_SECTION_UPDATE",
+
+    //houseSectionSensor
     HOUSE_SECTION_SENSOR_CREATE = "HOUSE_SECTION_SENSOR_CREATE",
+    HOUSE_SECTION_SENSOR_UPDATE = "HOUSE_SECTION_SENSOR_UPDATE",
+
 
 // // organization
 //     ORGANIZATION_CREATE = "ORGANIZATION_CREATE",
@@ -56,6 +63,14 @@ type IModal = {
         isVisible: boolean,
         data: string
     },
+    [ModalTypes.HOUSE_SECTION_SENSOR_UPDATE]: {
+        isVisible: boolean,
+        data: {
+            houseId: string,
+            houseSectionId: string,
+            sensor: FindAllHouseSectionsResponseHouseSectionSensor
+        }
+    },
 }
 
 const initialModalState: IModal = {
@@ -85,6 +100,14 @@ const initialModalState: IModal = {
     [ModalTypes.HOUSE_SECTION_SENSOR_CREATE]: {
         isVisible: false,
         data: "",
+    },
+    [ModalTypes.HOUSE_SECTION_SENSOR_UPDATE]: {
+        isVisible: false,
+        data: {
+            houseId: "",
+            houseSectionId: "",
+            sensor: {}
+        }
     },
 };
 

@@ -55,12 +55,12 @@ const HouseSectionUpdateModal = () => {
 
     const onSubmit = (data: UpdateHouseSectionForm) => {
         if (typeof data.sectionNumber !== 'number') {
-           return (
-               toast({
-                   variant: "destructive",
-                   description: "동 번호는 숫자만 입력가능합니다."
-               })
-           )
+            return (
+                toast({
+                    variant: "destructive",
+                    description: "동 번호는 숫자만 입력가능합니다."
+                })
+            )
         }
 
         updateHouseSection({
@@ -97,14 +97,14 @@ const HouseSectionUpdateModal = () => {
                 }
             }}
         >
-            <DialogContent>
+            <DialogContent className="rounded-lg max-w-[90%] w-[300px]">
                 <DialogHeader>
                     <DialogTitle>하우스 동 수정</DialogTitle>
                     <DialogDescription>
                         하우스 동을 수정할 수 있습니다.
                     </DialogDescription>
                 </DialogHeader>
-                <form className="flex space-x-2 py-[20px] items-center mx-auto max-w-md"
+                <form className="flex flex-col py-[10px] space-y-4"
                       onSubmit={handleSubmit(onSubmit, () => {
                           toast({
                               variant: "destructive",
@@ -112,11 +112,14 @@ const HouseSectionUpdateModal = () => {
                           });
                       })}
                 >
-                    <Label htmlFor="sectionNumber" className="w-[70px]">동 번호</Label>
-                    <Input type="text"
-                           id="sectionNumber"
-                           {...register("sectionNumber", {required: "하우스 동 번호를 작성해주세요."})}
-                    />
+                    <div className="space-y-1">
+                        <Label htmlFor="sectionNumber" className="w-[70px]">동 번호</Label>
+                        <Input type="text"
+                               id="sectionNumber"
+                               {...register("sectionNumber", {required: "하우스 동 번호를 작성해주세요."})}
+                        />
+                    </div>
+
                     <Button>수정</Button>
                 </form>
             </DialogContent>

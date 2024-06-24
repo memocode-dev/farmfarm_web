@@ -83,14 +83,14 @@ const HouseSectionCreateModal = () => {
                 }
             }}
         >
-            <DialogContent>
+            <DialogContent className="rounded-lg max-w-[90%] w-[400px]">
                 <DialogHeader>
                     <DialogTitle>하우스 동 생성</DialogTitle>
                     <DialogDescription>
                         하우스 동을 생성할 수 있습니다.
                     </DialogDescription>
                 </DialogHeader>
-                <form className="flex space-x-2 py-[20px] items-center mx-auto max-w-md"
+                <form className="flex flex-col py-[10px] space-y-4"
                       onSubmit={handleSubmit(onSubmit, () => {
                           toast({
                               variant: "destructive",
@@ -98,12 +98,15 @@ const HouseSectionCreateModal = () => {
                           });
                       })}
                 >
-                    <Label htmlFor="sectionNumber" className="w-[70px]">동 번호</Label>
-                    <Input type="text"
-                           id="sectionNumber"
-                           placeholder="하우스 동 번호를 작성해주세요."
-                           {...register("sectionNumber", {required: "하우스 동 번호를 작성해주세요."})}
-                    />
+                    <div className="space-y-1">
+                        <Label htmlFor="sectionNumber" className="w-[70px]">동 번호</Label>
+                        <Input type="text"
+                               id="sectionNumber"
+                               placeholder="하우스 동 번호를 작성해주세요."
+                               {...register("sectionNumber", {required: "하우스 동 번호를 작성해주세요."})}
+                        />
+                    </div>
+
                     <Button>생성</Button>
                 </form>
             </DialogContent>

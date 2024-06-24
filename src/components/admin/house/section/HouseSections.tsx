@@ -6,9 +6,11 @@ import {useContext, useEffect, useState} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalConext";
 import HouseSectionCreateModal from "@/components/admin/house/section/HouseSectionCreateModal";
 import HouseSection from "@/components/admin/house/section/HouseSection";
-import HouseSectionSensorCreateModal from "@/components/admin/house/section/HouseSectionSensorCreateModal";
 import {toast} from "@/components/ui/use-toast";
 import {sleep} from "@/utils/sleep";
+import HouseSectionSensorCreateModal from "@/components/admin/house/section/sensor/HouseSectionSensorCreateModal";
+import HouseSectionUpdateModal from "@/components/admin/house/section/HouseSectionUpdateModal";
+import HouseSectionSensorUpdateModal from "@/components/admin/house/section/sensor/HouseSectionSensorUpdateModal";
 
 interface HouseSectionsProps {
     houseId: string;
@@ -30,17 +32,8 @@ const HouseSections = ({houseId}: HouseSectionsProps) => {
     const {mutate: deleteHouseSection} = useDeleteHouseSection({
         mutation: {
             onSuccess: async () => {
-                const maxRetries = 10;
-                let retries = 0;
-                const houseSectionsLength = houseSections?.length;
-
-                while (retries < maxRetries && houseSectionsLength === houseSections?.length) {
-                    await findAllHouseSectionsRefetch();
-                    await sleep(1000);
-                    retries++;
-                }
-
                 toast({description: "성공적으로 하우스 동이 삭제되었습니다."});
+                await findAllHouseSectionsRefetch();
 
             },
             onError: (error) => {
@@ -127,7 +120,7 @@ const HouseSections = ({houseId}: HouseSectionsProps) => {
                     }
 
                     <div
-                        className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-12 sm:py-5 px-5">
+                        className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 sm:py-5 xs:px-5">
                         {houseSections?.map((houseSection, index) => {
                             return (
                                 <div
@@ -144,7 +137,7 @@ const HouseSections = ({houseId}: HouseSectionsProps) => {
 
                         {isLoading &&
                             Array.from({length: 10}, (_, index) => (
-                                <Skeleton key={index} className="min-h-[380px]"/>
+                                <Skeleton key={index} className="min-h-[500px]"/>
                             ))
                         }
                     </div>
@@ -153,6 +146,9 @@ const HouseSections = ({houseId}: HouseSectionsProps) => {
 
             <HouseSectionCreateModal/>
             <HouseSectionSensorCreateModal/>
+
+            <HouseSectionUpdateModal/>
+            <HouseSectionSensorUpdateModal/>
         </>
     )
 }

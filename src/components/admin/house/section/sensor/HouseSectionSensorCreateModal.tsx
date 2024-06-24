@@ -38,7 +38,7 @@ const HouseSectionSensorCreateModal = () => {
 
     const {mutate: createHouseSectionSensor} = useCreateHouseSectionSensor({
         mutation: {
-            onSuccess: () => {
+            onSuccess: async () => {
                 toast({
                     title: "하우스 동 센서 생성",
                     description: "성공적으로 하우스 동의 센서가 생성되었습니다.",
@@ -46,7 +46,7 @@ const HouseSectionSensorCreateModal = () => {
                 closeModal({
                     name: ModalTypes.HOUSE_SECTION_SENSOR_CREATE
                 });
-                findAllHouseSectionsRefetch();
+                await findAllHouseSectionsRefetch();
                 reset();
             },
             onError: (error) => {
@@ -120,7 +120,7 @@ const HouseSectionSensorCreateModal = () => {
                 }
             }}
         >
-            <DialogContent>
+            <DialogContent className="rounded-lg max-w-[90%] w-[500px]">
                 <DialogHeader>
                     <DialogTitle>하우스 동 센서 생성</DialogTitle>
                     <DialogDescription>
@@ -128,7 +128,7 @@ const HouseSectionSensorCreateModal = () => {
                     </DialogDescription>
                 </DialogHeader>
 
-                <form className="flex flex-col py-5 space-y-4"
+                <form className="flex flex-col py-[10px] space-y-4"
                       onSubmit={handleSubmit(onSubmit, () => {
                           toast({
                               variant: "destructive",

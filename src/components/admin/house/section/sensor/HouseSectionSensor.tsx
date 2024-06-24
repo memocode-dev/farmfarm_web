@@ -75,44 +75,78 @@ const HouseSectionSensor = ({houseId, houseSectionId, sensor}: HouseSectionSenso
     };
 
     return (
-        <>
-            <div className="flex flex-col">
-                <div className="flex space-x-3 items-center">
-                    <div className="flex space-x-1 items-center">
+        <div className="flex flex-1 justify-between">
+            <div className="flex flex-col space-y-3 justify-center">
+                <div className="flex flex-col space-y-0.5">
+                    <div className="flex space-x-1 items-center text-sm">
                         <MdSensors className="w-4 h-4"/>
-                        <div>센서</div>
+                        <div>관리자용 센서명</div>
+                    </div>
+                    <div className="font-bold">{sensor.nameForAdmin}</div>
+                </div>
+
+                <div className="flex flex-col space-y-0.5">
+                    <div className="flex space-x-1 items-center text-sm">
+                        <MdSensors className="w-4 h-4"/>
+                        <div>사용자용 센서명</div>
                     </div>
                     <div className="font-bold">{sensor.nameForUser}</div>
                 </div>
 
-                <div className="flex space-x-3 items-center">
-                    <div className="flex space-x-1 items-center">
+                <div className="flex flex-col space-y-0.5">
+                    <div className="flex space-x-1 items-center text-sm">
                         <PiCubeLight className="w-4 h-4"/>
                         <div>센서 모델</div>
                     </div>
                     <div className="font-bold">{sensor.sensorModelInfo?.name}</div>
                 </div>
+
+                <div>
+                    {sensor?.sensorModelInfo?.measurementDetails?.map((measurementDetail) => {
+                        return (
+                            <div className="flex flex-col space-y-0.5">
+                                <div className="flex space-x-1 items-center text-sm">
+                                    <PiCubeLight className="w-4 h-4"/>
+                                    <div>센서 모델</div>
+                                </div>
+                                <div className="font-bold">{sensor.sensorModelInfo?.name}</div>
+                            </div>
+                            // <>
+                            //     {measurementDetail.measurementType === "TEMPERATURE" &&
+                            //         <LiaTemperatureHighSolid className="w-8 h-8 ml-1.5"/>
+                            //     }
+                            //
+                            //     {measurementDetail.measurementType === "HUMIDITY" &&
+                            //         <WiRaindrop className="w-10 h-10"/>
+                            //     }
+                            // </>
+                        )
+                    })}
+                </div>
             </div>
 
-            <div className="flex justify-center"
-                 onClick={(event) => {
-                     event.stopPropagation();
-                 }}>
-                {loadingSensorId === sensor.id ?
-                    <RiLoader3Fill
-                        className="w-7 h-7 animate-spin text-gray-400 my-1.5"/>
-                    :
-                    <Button
-                        className="p-0"
-                        variant={null}
-                        onClick={() => HandleSync(sensor.id!)}
-                    >
-                        <RiRefreshLine
-                            className={`${currentStatus === "HEALTHY" ? 'text-primary' : 'text-gray-400'} w-6 h-6 mr-0.5`}/>
-                    </Button>
-                }
+            <div className="flex flex-col items-center border-l pl-3">
+                <div className="text-sm">센서 동기화</div>
+                <div
+                    onClick={(event) => {
+                        event.stopPropagation();
+                    }}>
+                    {loadingSensorId === sensor.id ?
+                        <RiLoader3Fill
+                            className="w-7 h-7 animate-spin text-gray-400 my-1.5"/>
+                        :
+                        <Button
+                            className="p-0"
+                            variant={null}
+                            onClick={() => HandleSync(sensor.id!)}
+                        >
+                            <RiRefreshLine
+                                className={`${currentStatus === "HEALTHY" ? 'text-primary' : 'text-gray-400'} w-6 h-6 mr-0.5`}/>
+                        </Button>
+                    }
+                </div>
             </div>
-        </>
+        </div>
     )
 }
 
