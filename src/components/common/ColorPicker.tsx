@@ -7,16 +7,16 @@ interface ColorPickerProps {
 const ColorPicker = ({handleTheme}: ColorPickerProps) => {
 
     const colors = [
-        {colorHSL: "0 72% 51%", backgroundColor: "#DC2726"},
-        {colorHSL: "25 95% 53%", backgroundColor: "#F97316"},
-        {colorHSL: "48 96% 53%", backgroundColor: "#FACC15"},
-        {colorHSL: "142 76% 36%", backgroundColor: "#16A34A"},
-        {colorHSL: "221 83% 53%", backgroundColor: "#2463EB"},
-        {colorHSL: "222.2 47.4% 11.2%", backgroundColor: "#2E3343"},
-        {colorHSL: "261 83% 59%", backgroundColor: "#7C41ED"},
-        {colorHSL: "301 79% 63%", backgroundColor: "#EB58E8"},
-        {colorHSL: "207 76% 60%", backgroundColor: "#4DA1E7"},
-        {colorHSL: "170 74% 59%", backgroundColor: "#48E4CA"},
+        {colorHSL: "0 84% 67%", backgroundColor: "#f16363", fontColor: "0 0% 100%"},
+        {colorHSL: "22 97% 69%", backgroundColor: "#fd9c63", fontColor: "0 0% 100%"},
+        {colorHSL: "42 100% 71%", backgroundColor: "#ffd26b", fontColor: "222.2 47.4% 11.2%"},
+        {colorHSL: "142 44% 55%", backgroundColor: "#59bf7f", fontColor: "0 0% 100%"},
+        {colorHSL: "216 88% 65%", backgroundColor: "#5696f4", fontColor: "0 0% 100%"},
+        {colorHSL: "234 89% 74%", backgroundColor: "#818cf8", fontColor: "0 0% 100%"},
+        {colorHSL: "335 66% 63%", backgroundColor: "#df6094", fontColor: "0 0% 100%"},
+        {colorHSL: "274 68% 65%", backgroundColor: "#af6be3", fontColor: "0 0% 100%"},
+        {colorHSL: "173 53% 56%", backgroundColor: "#52cabc", fontColor: "222.2 47.4% 11.2%"},
+        {colorHSL: "222.2 47.4% 11.2%", backgroundColor: "#2E3343", fontColor: "0 0% 100%"}
     ];
 
     return (

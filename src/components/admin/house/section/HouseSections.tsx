@@ -7,10 +7,12 @@ import {ModalContext, ModalTypes} from "@/context/ModalConext";
 import HouseSectionCreateModal from "@/components/admin/house/section/HouseSectionCreateModal";
 import HouseSection from "@/components/admin/house/section/HouseSection";
 import {toast} from "@/components/ui/use-toast";
-import {sleep} from "@/utils/sleep";
 import HouseSectionSensorCreateModal from "@/components/admin/house/section/sensor/HouseSectionSensorCreateModal";
 import HouseSectionUpdateModal from "@/components/admin/house/section/HouseSectionUpdateModal";
 import HouseSectionSensorUpdateModal from "@/components/admin/house/section/sensor/HouseSectionSensorUpdateModal";
+import {FindAllHouseSectionsResponseHouseSection} from "@/openapi/model";
+import {Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger} from "@/components/ui/menubar";
+import {IoIosMore} from "react-icons/io";
 
 interface HouseSectionsProps {
     houseId: string;
@@ -27,7 +29,7 @@ const HouseSections = ({houseId}: HouseSectionsProps) => {
                 queryKey: ['HouseSections', houseId],
             },
         });
-    const houseSections = houseSectionsArrayData?.houseSections;
+    const houseSections = houseSectionsArrayData?.houseSections?.sort((a: FindAllHouseSectionsResponseHouseSection, b: FindAllHouseSectionsResponseHouseSection) => a.sectionNumber! - b.sectionNumber!)
 
     const {mutate: deleteHouseSection} = useDeleteHouseSection({
         mutation: {
@@ -44,6 +46,15 @@ const HouseSections = ({houseId}: HouseSectionsProps) => {
                             variant: "destructive",
                             title: "하우스 동 삭제에 실패하였습니다.",
                             description: errorData.message,
+                        })
+                    )
+                }
+                if (errorData.code === "HOUSE_SECTION_REFERENCED") {
+                    return (
+                        toast({
+                            variant: "destructive",
+                            title: "하우스 동 삭제에 실패하였습니다.",
+                            description: "해당 하우스 동에 센서가 존재합니다.",
                         })
                     )
                 }
@@ -84,34 +95,46 @@ const HouseSections = ({houseId}: HouseSectionsProps) => {
     return (
         <>
             <Card className="w-full">
-                <CardHeader className="flex sm:flex-row items-center justify-between space-y-5 sm:space-y-0">
+                <CardHeader className="flex flex-row items-center justify-between sm:space-y-0">
                     <CardTitle>하우스 동</CardTitle>
-                    <div className="flex space-x-2">
-                        <Button
-                            variant="secondary"
-                            className="hover:bg-primary hover:text-primary-foreground"
-                            onClick={() => openModal({
-                                name: ModalTypes.HOUSE_SECTION_CREATE,
-                                data: {
-                                    houseId: houseId,
-                                    setCreatedHouseSectionId: setCreatedHouseSectionId,
-                                }
-                            })}
-                        >
-                            하우스 동 생성
-                        </Button>
+                    <Menubar>
+                        <MenubarMenu>
+                            <MenubarTrigger
+                                className="group inline-flex px-1.5 h-fit w-fit items-center justify-center rounded-md text-sm font-medium cursor-pointer">
+                                <IoIosMore className="w-5 h-5"/>
+                            </MenubarTrigger>
+                            <MenubarContent sideOffset={15} align="end">
+                                <MenubarItem>
+                                    <Button
+                                        className="w-full"
+                                        variant="ghost"
+                                        onClick={() => openModal({
+                                            name: ModalTypes.HOUSE_SECTION_CREATE,
+                                            data: {
+                                                houseId: houseId,
+                                                setCreatedHouseSectionId: setCreatedHouseSectionId,
+                                            }
+                                        })}
+                                    >
+                                        하우스 동 생성
+                                    </Button>
+                                </MenubarItem>
 
-                        <Button
-                            variant="secondary"
-                            className="hover:bg-primary hover:text-primary-foreground"
-                            onClick={() => openModal({
-                                name: ModalTypes.HOUSE_SECTION_SENSOR_CREATE,
-                                data: houseId,
-                            })}
-                        >
-                            하우스 동 센서 생성
-                        </Button>
-                    </div>
+                                <MenubarItem>
+                                    <Button
+                                        className="w-full"
+                                        variant="ghost"
+                                        onClick={() => openModal({
+                                            name: ModalTypes.HOUSE_SECTION_SENSOR_CREATE,
+                                            data: houseId,
+                                        })}
+                                    >
+                                        하우스 동 센서 생성
+                                    </Button>
+                                </MenubarItem>
+                            </MenubarContent>
+                        </MenubarMenu>
+                    </Menubar>
                 </CardHeader>
                 <CardContent>
 

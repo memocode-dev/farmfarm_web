@@ -50,6 +50,7 @@ const HouseSectionSensorCreateModal = () => {
                 reset();
             },
             onError: (error) => {
+                console.log(error)
                 const errorData = error.response?.data as { code: string; message: string }
                 if (errorData.code === "VALIDATION_ERROR") {
                     return (
@@ -57,6 +58,15 @@ const HouseSectionSensorCreateModal = () => {
                             variant: "destructive",
                             title: "포트이름이 없는 동은 센서를 생성할 수 없습니다.",
                             description: "관리자에게 문의하세요.",
+                        })
+                    )
+                }
+                if (errorData.code === "NOT_HEALTHY_HOUSE") {
+                    return (
+                        toast({
+                            variant: "destructive",
+                            title: "하우스 상태 : NOT_HEALTHY",
+                            description: "하우스 수정에 실패하였습니다.",
                         })
                     )
                 }

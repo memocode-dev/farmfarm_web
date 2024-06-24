@@ -100,7 +100,7 @@ const HouseUpdate = ({houseId, house, isLoading, findHouseRefetch}: HouseUpdateC
     }, [house]);
 
     return (
-        <Card className="w-full lg:max-w-2xl">
+        <Card className="w-full">
             <CardHeader>
                 <CardTitle>하우스 정보</CardTitle>
             </CardHeader>

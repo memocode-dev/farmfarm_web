@@ -1,10 +1,4 @@
-import {
-    Carousel,
-    CarouselContent,
-    CarouselItem,
-    CarouselNext,
-    CarouselPrevious,
-} from "@/components/ui/carousel"
+import {Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious,} from "@/components/ui/carousel"
 import {FaTemperatureHigh} from "react-icons/fa";
 import {GiGreenhouse, GiOrganigram} from "react-icons/gi";
 import {forwardRef, useEffect, useState} from "react";

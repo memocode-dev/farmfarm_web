@@ -29,7 +29,7 @@ const House = () => {
 
     return (
         <div className="flex-1 p-5 space-y-5">
-            <div className="flex justify-center">
+            <div className="flex justify-start">
                 <HouseUpdate houseId={houseId} house={house!} isLoading={isLoading}
                              findHouseRefetch={findHouseRefetch}/>
             </div>

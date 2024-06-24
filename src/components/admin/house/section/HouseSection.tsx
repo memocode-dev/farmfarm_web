@@ -29,7 +29,7 @@ const HouseSection = ({houseSection, houseId, onDeleteSubmit}: HouseSectionProps
                 style={{aspectRatio: '3 / 5.5'}}
                 className="flex flex-col justify-between bg-secondary/60 space-y-2 shadow-lg overflow-y-auto overflow-x-hidden p-3">
 
-                <div>
+                <div className="flex flex-col flex-1">
                     <div className="flex justify-between items-center">
                         <div className="font-semibold cursor-default">하우스 동 동기화</div>
                         <HouseSectionSync
@@ -39,32 +39,37 @@ const HouseSection = ({houseSection, houseId, onDeleteSubmit}: HouseSectionProps
                         />
                     </div>
 
-                    <div>
-                        <div className="py-1 font-semibold cursor-default">센서</div>
-                        <div
-                            className="py-1.5 max-h-[210px] xs:max-h-[400px] sm:max-h-[800px] md:max-h-[400px] lg:max-h-[400px] xl:max-h-[350px] overflow-y-auto space-y-2">
-                            {houseSection.sensors?.map((sensor, index) => {
-                                return (
-                                    <div key={index}
-                                         className="flex border bg-secondary rounded py-2 px-3 cursor-pointer"
-                                         onClick={() => openModal({
-                                             name: ModalTypes.HOUSE_SECTION_SENSOR_UPDATE,
-                                             data: {
-                                                 houseId: houseId,
-                                                 houseSectionId: houseSection.id,
-                                                 sensor: sensor
-                                             }
-                                         })}
-                                    >
-                                        <HouseSectionSensor
-                                            houseId={houseId}
-                                            houseSectionId={houseSection.id!}
-                                            sensor={sensor}/>
-                                    </div>
-                                )
-                            })}
+                    <div className="flex-1 relative overflow-y-auto">
+                        <div className="absolute inset-0">
+                            <>
+                                <div className="py-1 font-semibold cursor-default">센서</div>
+                                <div
+                                    className="py-1.5 overflow-y-auto space-y-2">
+                                    {houseSection.sensors?.map((sensor, index) => {
+                                        return (
+                                            <div key={index}
+                                                 className="flex border bg-secondary rounded py-2 px-3 cursor-pointer"
+                                                 onClick={() => openModal({
+                                                     name: ModalTypes.HOUSE_SECTION_SENSOR_UPDATE,
+                                                     data: {
+                                                         houseId: houseId,
+                                                         houseSectionId: houseSection.id,
+                                                         sensor: sensor
+                                                     }
+                                                 })}
+                                            >
+                                                <HouseSectionSensor
+                                                    houseId={houseId}
+                                                    houseSectionId={houseSection.id!}
+                                                    sensor={sensor}/>
+                                            </div>
+                                        )
+                                    })}
+                                </div>
+                            </>
                         </div>
                     </div>
+
                 </div>
 
                 <div className="flex justify-between">
