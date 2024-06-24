@@ -4,6 +4,7 @@ import {ReactNode} from 'react';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {Toaster} from '@/components/ui/toaster';
 import {ModalProvider} from '@/context/ModalConext';
+import {KeycloakProvider} from "@/context/KeycloakContext";
 
 const queryClient = new QueryClient();
 
@@ -16,7 +17,9 @@ const ClientProviders = ({children}: ClientProvidersProps) => {
         <QueryClientProvider client={queryClient}>
             <Toaster/>
             <ModalProvider>
-                {children}
+                <KeycloakProvider>
+                    {children}
+                </KeycloakProvider>
             </ModalProvider>
         </QueryClientProvider>
     );

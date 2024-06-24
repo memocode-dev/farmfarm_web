@@ -1,25 +1,18 @@
+'use client'
+
 // src/KeycloakContext.tsx
-import React, {createContext, ReactNode, useContext, useEffect, useState} from 'react';
+import React, {createContext, ReactNode, useContext, useEffect, useMemo, useRef, useState} from 'react';
 import Keycloak, {KeycloakConfig} from 'keycloak-js';
 import {AxiosRequestConfig} from "axios";
 import {FARMFARM_AXIOS_INSTANCE} from "@/axios/axios_instance"
 import {importData} from "@/axios/import-data";
 
-// Keycloak 인스턴스 초기화 옵션
+
 const initOptions: KeycloakConfig = {
     url: importData.NEXT_PUBLIC_AUTH_SERVER_URL || '',
     realm: importData.NEXT_PUBLIC_AUTH_SERVER_REALM || '',
     clientId: 'react-client',
-};
-
-// Keycloak 인스턴스 생성
-const kc = new Keycloak(initOptions);
-
-kc.init({
-    onLoad: 'check-sso',
-    checkLoginIframe: false,
-    pkceMethod: 'S256',
-})
+}
 
 interface IUserInfo {
     id: string;
@@ -46,6 +39,8 @@ interface KeycloakProviderProps {
 
 // Context의 Provider 컴포넌트
 export const KeycloakProvider: React.FC<KeycloakProviderProps> = ({children}) => {
+    const didInit = useRef(false);
+
     const [isLogined, setIsLogined] = useState<boolean>(false);
     const [user_info, set_user_info] = useState<IUserInfo>({
         id: "",
@@ -56,39 +51,50 @@ export const KeycloakProvider: React.FC<KeycloakProviderProps> = ({children}) =>
         last_name: "",
     });
 
+    let kc: Keycloak;
+
+    if (typeof window !== 'undefined') {
+        kc = useMemo(() => {
+            return new Keycloak(initOptions);
+        }, []);
+    }
+
     useEffect(() => {
-        // 인증 상태 변경 시 isLogined 상태 업데이트
-        kc.onAuthSuccess = () => {
+        if (!didInit.current) {
+            didInit.current = true;
 
-            if (process.env.NODE_ENV !== "production") {
-                localStorage.setItem("access_token", kc.token!);
-            }
+            // 인증 상태 변경 시 isLogined 상태 업데이트
+            kc.onAuthSuccess = () => {
+                if (process.env.NODE_ENV !== "production") {
+                    localStorage.setItem("access_token", kc.token!);
+                }
 
-            const tokenParsed = kc.tokenParsed;
-            const idTokenParsed = kc.idTokenParsed;
+                const tokenParsed = kc.tokenParsed;
+                const idTokenParsed = kc.idTokenParsed;
 
-            set_user_info({
-                email: idTokenParsed!.email,
-                username: idTokenParsed!.username,
-                roles: tokenParsed!.realm_access!.roles,
-                first_name: idTokenParsed!.first_name,
-                last_name: idTokenParsed!.last_name,
-                id: idTokenParsed!.sub!,
+                set_user_info({
+                    email: idTokenParsed!.email,
+                    username: idTokenParsed!.username,
+                    roles: tokenParsed!.realm_access!.roles,
+                    first_name: idTokenParsed!.first_name,
+                    last_name: idTokenParsed!.last_name,
+                    id: idTokenParsed!.sub!,
+                });
+                setIsLogined(kc.authenticated!);
+            };
+            kc.onAuthLogout = () => {
+                setIsLogined(kc.authenticated!);
+            };
+            kc.onAuthRefreshError = () => {
+                setIsLogined(kc.authenticated!);
+            };
+
+            kc.init({
+                onLoad: 'check-sso',
+                checkLoginIframe: false,
+                pkceMethod: 'S256'
             });
-            setIsLogined(kc.authenticated!);
-        };
-        kc.onAuthLogout = () => {
-            setIsLogined(kc.authenticated!);
-        };
-        kc.onAuthRefreshError = () => {
-            setIsLogined(kc.authenticated!);
-        };
-
-        return () => {
-            kc.onAuthSuccess = undefined;
-            kc.onAuthLogout = undefined;
-            kc.onAuthRefreshError = undefined;
-        };
+        }
     }, []);
 
     const login = () => {
@@ -100,7 +106,6 @@ export const KeycloakProvider: React.FC<KeycloakProviderProps> = ({children}) =>
     }
 
     useEffect(() => {
-
         const interceptorFunction = async (config: AxiosRequestConfig) => {
             const getAuthorizationHeader = async () => {
                 if (!kc.authenticated) {
@@ -135,6 +140,7 @@ export const KeycloakProvider: React.FC<KeycloakProviderProps> = ({children}) =>
         return () => {
             FARMFARM_AXIOS_INSTANCE.interceptors.request.eject(farmfarm_axios_instance_intercepter);
         };
+
     }, []);
 
     return (

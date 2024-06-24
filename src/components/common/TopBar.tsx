@@ -10,9 +10,11 @@ import AdminMenu from "@/components/admin/AdminMenu";
 import * as React from "react";
 import {useState} from "react";
 import {BiVerticalBottom} from "react-icons/bi";
+import {useKeycloak} from "@/context/KeycloakContext";
 
 const TopBar = () => {
 
+    const {user_info, login, isLogined, logout} = useKeycloak();
     const router = useRouter();
     const pathname = usePathname();
     const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -50,8 +52,23 @@ const TopBar = () => {
                     </PopoverContent>
                 </Popover>
 
-                <Button className={pathname !== "/" ? 'hidden' : 'flex'}
-                        onClick={() => router.push("/admin")}>대시보드</Button>
+                {!isLogined ?
+                    <Button variant="ghost" onClick={login}>
+                        <span className="text-[15px]">로그인</span>
+                    </Button>
+                    :
+                    <div className="flex">
+                        <Button
+                            className="mx-0.5"
+                            onClick={logout}
+                            variant="ghost">
+                            <span className="text-[15px]">로그아웃</span>
+                        </Button>
+
+                        <Button className={pathname !== "/" ? 'hidden' : 'flex'}
+                                onClick={() => router.push("/admin")}>대시보드</Button>
+                    </div>
+                }
 
                 {/* lg 이하 시트 */}
                 <div className={`${pathname !== "/" ? 'flex flex-col flex-1 items-end' : 'hidden'} lg:hidden`}>
