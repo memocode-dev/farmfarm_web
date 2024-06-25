@@ -87,19 +87,6 @@ const HouseSectionSensorCreateModal = () => {
     } = useForm<CreateHouseSectionSensorForm>();
 
     const onSubmit = (data: CreateHouseSectionSensorForm) => {
-        const selectedHouseSection = houseSections?.find(houseSection => houseSection.id === selectedHouseSectionId);
-
-        if (selectedHouseSection) {
-            // 선택한 동의 포트이름 조회
-            const portNames = selectedHouseSection.sensors?.map(sensor => sensor.portName) || [];
-            // 하나의 동의 센서가 여러개면 같은 포트이름도 여러개이므로 중복을 제거하기 위해 첫번째 요소 선택
-            const uniquePortName = portNames[0];
-
-            if (uniquePortName) {
-                data.portName = uniquePortName;
-            }
-        }
-
         createHouseSectionSensor({
             houseId: houseId!,
             houseSectionId: selectedHouseSectionId!,
