@@ -1,17 +1,28 @@
 'use client'
 
-import {useContext, useEffect} from "react";
+import {useContext, useEffect, useState} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalConext";
 import {Button} from "@/components/ui/button";
-import {Skeleton} from "@/components/ui/skeleton";
 import DataTable from "@/components/common/DataTable";
 import {useRouter} from "next/navigation";
 import formatDate from "@/utils/formatDate";
 import {useFindAllHouses} from "@/openapi/api/houses/houses";
 import HouseSync from "@/components/admin/house/HouseSync";
 import HouseCreateModal from "@/components/admin/house/HouseCreateModal";
+import {ColumnDef} from "@tanstack/react-table";
+import {type FindAllHousesResponseHouse} from "@/openapi/model";
+import {Skeleton} from "@/components/ui/skeleton";
 
 const Houses = () => {
+    const [width, setWidth] = useState(window.innerWidth);
+
+    useEffect(() => {
+        const handleResize = () => setWidth(window.innerWidth);
+        window.addEventListener("resize", handleResize);
+
+        // Cleanup event listener on component unmount
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
 
     const router = useRouter();
     const {openModal, modalState} = useContext(ModalContext);
@@ -23,7 +34,6 @@ const Houses = () => {
             },
         });
     const houses = housesArrayData?.houses;
-
 
     useEffect(() => {
         if (modalState[ModalTypes.HOUSE_CREATE]?.isVisible === false) {
@@ -40,6 +50,7 @@ const Houses = () => {
         )
     }
 
+
     return (
         <>
             <div className="flex flex-col p-2 space-y-2">
@@ -54,49 +65,67 @@ const Houses = () => {
                     {Array.from({length: 5}, (_, index) => (
                         <Skeleton key={index} className="h-[45px] w-full"/>
                     ))}
-                </div>
-                }
+                </div>}
 
-                {!isLoading && houses && <DataTable columns={[
-                    {
-                        accessorKey: "id",
-                        header: "Id",
-                    },
-                    {
-                        accessorKey: "name"
-                        , header: "하우스명"
-                    },
-                    {
-                        accessorKey: "createdAt",
-                        header: "생성일",
-                        cell: ({cell}) => formatDate(cell.getValue<string>())
-                    },
-                    {
-                        accessorKey: "updatedAt",
-                        header: "수정일",
-                        cell: ({cell}) => formatDate(cell.getValue<string>())
-                    },
-                    {
-                        accessorKey: "syncStatus",
-                        header: "상태",
-                    },
-                    {
-                        accessorKey: "houseSync",
-                        header: "하우스 동기화",
-                        cell: ({row}) => {
-                            const houseId = row.original.id;
-                            const syncStatus = row.original.syncStatus;
-                            return (
-                                <HouseSync houseId={houseId || ""} houseStatus={syncStatus || ""}/>
-                            )
-                        }
-                    },
-                ]} data={houses.map(house => {
-                    return {
-                        ...house,
-                        onClick: () => router.push(`/admin/houses/${house.id}`)
-                    }
-                }) || []}/>}
+                {!isLoading && <div style={width < 1024 ? { width: width - 20 } : {}} className="overflow-x-auto">
+                    <div className={`${width < 1024 ? "w-[1000px]" : "w-full"}`}>
+                        <DataTable
+                            columns={[
+                                {
+                                    accessorKey: "id",
+                                    header: () => <div className="text-center">Id</div>,
+                                    cell: ({ cell }) => <div className="text-center">{cell.getValue<string>()}</div>,
+                                },
+                                {
+                                    accessorKey: "name",
+                                    header: () => <div className="text-center">하우스명</div>,
+                                    cell: ({ cell }) => <div className="text-center">{cell.getValue<string>()}</div>,
+                                },
+                                {
+                                    accessorKey: "createdAt",
+                                    header: () => <div className="text-center">생성일</div>,
+                                    cell: ({ cell }) => <div className="text-center">{formatDate(cell.getValue<string>())}</div>,
+                                },
+                                {
+                                    accessorKey: "updatedAt",
+                                    header: () => <div className="text-center">수정일</div>,
+                                    cell: ({ cell }) => <div className="text-center">{formatDate(cell.getValue<string>())}</div>,
+                                },
+                                {
+                                    accessorKey: "syncStatus",
+                                    header: () => <div className="text-center">상태</div>,
+                                    cell: ({ cell }) => <div className="text-center">{cell.getValue<string>()}</div>,
+                                },
+                                {
+                                    accessorKey: "houseSync",
+                                    header: () => <div className="text-center">하우스 동기화</div>,
+                                    cell: ({ row }) => {
+                                        const houseId = row.original.id;
+                                        const syncStatus = row.original.syncStatus;
+                                        return (
+                                            <div className="flex justify-center">
+                                                <HouseSync houseId={houseId || ""} houseStatus={syncStatus || ""} />
+                                            </div>
+                                        )
+                                    },
+                                },
+                            ]}
+                            data={houses?.map(house => {
+                                return {
+                                    ...house,
+                                    onClick: () => router.push(`/admin/houses/${house.id}`)
+                                }
+                            }) || []}
+                            initialState={{
+                                columnVisibility: {
+                                    id: width > 1024,
+                                    createdAt: width > 1024,
+                                    updatedAt: width > 1024,
+                                },
+                            }}
+                        />
+                    </div>
+                </div>}
             </div>
 
             <HouseCreateModal/>
