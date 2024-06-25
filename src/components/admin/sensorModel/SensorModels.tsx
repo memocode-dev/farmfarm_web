@@ -3,17 +3,8 @@
 import {Skeleton} from "@/components/ui/skeleton";
 import DataTable from "@/components/common/DataTable";
 import {useRouter} from "next/navigation";
-import {Controller, useForm} from "react-hook-form";
-import {toast} from "@/components/ui/use-toast";
-import {Label} from "@/components/ui/label";
-import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
-import {Checkbox} from "@/components/ui/checkbox";
-import {Badge} from "@/components/ui/badge";
 import {useFindAllSensorModels} from "@/openapi/api/sensors/sensors";
-import {ModalTypes} from "@/context/ModalConext";
-import formatDate from "@/utils/formatDate";
-import HouseSync from "@/components/admin/house/HouseSync";
 import {Separator} from "@/components/ui/separator";
 import {RiCelsiusLine, RiPercentLine} from "react-icons/ri";
 
@@ -50,9 +41,6 @@ const SensorModels = () => {
                     <Skeleton key={index} className="h-[45px] w-full"/>
                 ))}
             </div>}
-
-            {/*{!isLoading && <div style={width < 1024 ? {width: width - 20} : {}} className="overflow-x-auto">*/}
-            {/*    <div className={`${width < 1024 ? "w-[1000px]" : "w-full"}`}>*/}
 
             {!isLoading && <DataTable
                 columns={[
@@ -96,19 +84,9 @@ const SensorModels = () => {
                         ...sensorModel
                     }
                 }) || []}
-                // initialState={{
-                //     columnVisibility: {
-                //         id: width > 1024,
-                //         createdAt: width > 1024,
-                //         updatedAt: width > 1024,
-                //     },
-                // }}
             />
             }
         </div>
-        // </div>
-        // }
-        // </div>
     )
 }
 
