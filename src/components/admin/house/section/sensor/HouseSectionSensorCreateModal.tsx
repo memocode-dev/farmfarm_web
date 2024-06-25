@@ -22,7 +22,7 @@ const HouseSectionSensorCreateModal = () => {
     const {data: houseSectionsArrayData, refetch: findAllHouseSectionsRefetch} =
         useFindAllHouseSections(houseId!, {
             query: {
-                queryKey: ['HouseSectionSensorCreateModal', houseId],
+                queryKey: ['HouseSections', houseId],
             },
         });
     const houseSections = houseSectionsArrayData?.houseSections;
@@ -161,6 +161,15 @@ const HouseSectionSensorCreateModal = () => {
                                id="nameForUser"
                                placeholder="사용자용 센서명을 작성해주세요."
                                {...register("nameForUser", {required: "사용자용 센서명을 작성해주세요."})}
+                        />
+                    </div>
+
+                    <div className="space-y-1">
+                        <Label htmlFor="nameForUser">포트 이름</Label>
+                        <Input type="text"
+                               id="nameForUser"
+                               placeholder="포트이름을 작성해주세요."
+                               {...register("portName", {required: "포트이름을 작성해주세요."})}
                         />
                     </div>
 

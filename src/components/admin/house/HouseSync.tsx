@@ -17,7 +17,7 @@ const HouseSync = ({houseId, houseStatus}: HouseSyncProps) => {
     const {data: housesArrayData, refetch: findAllHousesRefetch} =
         useFindAllHouses({
             query: {
-                queryKey: ['HouseSync', houseId],
+                queryKey: ['Houses', houseId],
             },
         });
 
