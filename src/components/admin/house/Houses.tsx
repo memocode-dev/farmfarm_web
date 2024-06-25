@@ -9,12 +9,10 @@ import formatDate from "@/utils/formatDate";
 import {useFindAllHouses} from "@/openapi/api/houses/houses";
 import HouseSync from "@/components/admin/house/HouseSync";
 import HouseCreateModal from "@/components/admin/house/HouseCreateModal";
-import {ColumnDef} from "@tanstack/react-table";
-import {type FindAllHousesResponseHouse} from "@/openapi/model";
 import {Skeleton} from "@/components/ui/skeleton";
 
 const Houses = () => {
-    const [width, setWidth] = useState(window.innerWidth);
+    const [width, setWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 0);
 
     useEffect(() => {
         const handleResize = () => setWidth(window.innerWidth);

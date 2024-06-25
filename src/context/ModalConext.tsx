@@ -106,7 +106,17 @@ const initialModalState: IModal = {
         data: {
             houseId: "",
             houseSectionId: "",
-            sensor: {}
+            sensor: {
+                createdAt: "",
+                id: "",
+                nameForAdmin: "",
+                nameForUser: "",
+                portName: "",
+                updatedAt: "",
+                syncStatus: "UNHEALTHY",
+                measurements: {},
+                sensorModelInfo: {}
+            }
         }
     },
 };
