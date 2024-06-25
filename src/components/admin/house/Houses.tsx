@@ -65,44 +65,46 @@ const Houses = () => {
                     ))}
                 </div>}
 
-                {!isLoading && <div style={width < 1024 ? { width: width - 20 } : {}} className="overflow-x-auto">
+                {!isLoading && <div style={width < 1024 ? {width: width - 20} : {}} className="overflow-x-auto">
                     <div className={`${width < 1024 ? "w-[1000px]" : "w-full"}`}>
                         <DataTable
                             columns={[
                                 {
                                     accessorKey: "id",
                                     header: () => <div className="text-center">Id</div>,
-                                    cell: ({ cell }) => <div className="text-center">{cell.getValue<string>()}</div>,
+                                    cell: ({cell}) => <div className="text-center">{cell.getValue<string>()}</div>,
                                 },
                                 {
                                     accessorKey: "name",
                                     header: () => <div className="text-center">하우스명</div>,
-                                    cell: ({ cell }) => <div className="text-center">{cell.getValue<string>()}</div>,
+                                    cell: ({cell}) => <div className="text-center">{cell.getValue<string>()}</div>,
                                 },
                                 {
                                     accessorKey: "createdAt",
                                     header: () => <div className="text-center">생성일</div>,
-                                    cell: ({ cell }) => <div className="text-center">{formatDate(cell.getValue<string>())}</div>,
+                                    cell: ({cell}) => <div
+                                        className="text-center">{formatDate(cell.getValue<string>())}</div>,
                                 },
                                 {
                                     accessorKey: "updatedAt",
                                     header: () => <div className="text-center">수정일</div>,
-                                    cell: ({ cell }) => <div className="text-center">{formatDate(cell.getValue<string>())}</div>,
+                                    cell: ({cell}) => <div
+                                        className="text-center">{formatDate(cell.getValue<string>())}</div>,
                                 },
                                 {
                                     accessorKey: "syncStatus",
                                     header: () => <div className="text-center">상태</div>,
-                                    cell: ({ cell }) => <div className="text-center">{cell.getValue<string>()}</div>,
+                                    cell: ({cell}) => <div className="text-center">{cell.getValue<string>()}</div>,
                                 },
                                 {
                                     accessorKey: "houseSync",
                                     header: () => <div className="text-center">하우스 동기화</div>,
-                                    cell: ({ row }) => {
+                                    cell: ({row}) => {
                                         const houseId = row.original.id;
                                         const syncStatus = row.original.syncStatus;
                                         return (
                                             <div className="flex justify-center">
-                                                <HouseSync houseId={houseId || ""} houseStatus={syncStatus || ""} />
+                                                <HouseSync houseId={houseId || ""} houseStatus={syncStatus || ""}/>
                                             </div>
                                         )
                                     },
@@ -123,7 +125,8 @@ const Houses = () => {
                             }}
                         />
                     </div>
-                </div>}
+                </div>
+                }
             </div>
 
             <HouseCreateModal/>

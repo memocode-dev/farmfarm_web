@@ -20,13 +20,13 @@ export enum ModalTypes {
     HOUSE_SECTION_CREATE = "HOUSE_SECTION_CREATE",
     HOUSE_SECTION_UPDATE = "HOUSE_SECTION_UPDATE",
 
-    //houseSectionSensor
+    // houseSectionSensor
     HOUSE_SECTION_SENSOR_CREATE = "HOUSE_SECTION_SENSOR_CREATE",
     HOUSE_SECTION_SENSOR_UPDATE = "HOUSE_SECTION_SENSOR_UPDATE",
 
 
-// // organization
-//     ORGANIZATION_CREATE = "ORGANIZATION_CREATE",
+    // organization
+    ORGANIZATION_CREATE = "ORGANIZATION_CREATE",
 //     ORGANIZATION_MEMBER_CREATE = "ORGANIZATION_MEMBER_CREATE",
 //     ORGANIZATION_HOUSE_CREATE = "ORGANIZATION_HOUSE_CREATE",
 //
@@ -36,14 +36,19 @@ export enum ModalTypes {
 }
 
 type IModal = {
+    // dashboard
     [ModalTypes.DASHBOARD_CREATE]: {
         isVisible: boolean,
         data: {},
     },
+
+    // house
     [ModalTypes.HOUSE_CREATE]: {
         isVisible: boolean,
         data: {},
     },
+
+    // houseSection
     [ModalTypes.HOUSE_SECTION_CREATE]: {
         isVisible: boolean,
         data: {
@@ -59,6 +64,8 @@ type IModal = {
             sectionNumber: number
         },
     },
+
+    // houseSectionSensor
     [ModalTypes.HOUSE_SECTION_SENSOR_CREATE]: {
         isVisible: boolean,
         data: string
@@ -71,22 +78,34 @@ type IModal = {
             sensor: FindAllHouseSectionsResponseHouseSectionSensor
         }
     },
+
+    // organization
+    [ModalTypes.ORGANIZATION_CREATE]: {
+        isVisible: boolean,
+        data: {}
+    },
 }
 
 const initialModalState: IModal = {
+    // dashboard
     [ModalTypes.DASHBOARD_CREATE]: {
         isVisible: false,
         data: {},
     },
+
+    // house
     [ModalTypes.HOUSE_CREATE]: {
         isVisible: false,
         data: {},
     },
+
+    // houseSection
     [ModalTypes.HOUSE_SECTION_CREATE]: {
         isVisible: false,
         data: {
             houseId: "",
-            setCreatedHouseSectionId: () => {}
+            setCreatedHouseSectionId: () => {
+            }
         },
     },
     [ModalTypes.HOUSE_SECTION_UPDATE]: {
@@ -97,6 +116,8 @@ const initialModalState: IModal = {
             sectionNumber: 0
         },
     },
+
+    // houseSectionSensor
     [ModalTypes.HOUSE_SECTION_SENSOR_CREATE]: {
         isVisible: false,
         data: "",
@@ -118,6 +139,12 @@ const initialModalState: IModal = {
                 sensorModelInfo: {}
             }
         }
+    },
+
+    // organization
+    [ModalTypes.ORGANIZATION_CREATE]: {
+        isVisible: false,
+        data: {}
     },
 };
 

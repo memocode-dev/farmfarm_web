@@ -37,10 +37,6 @@ const menus: Menu[] = [
         path: "/admin/sensorModels",
         name: "센서모델",
     },
-    {
-        path: "/admin/measurement",
-        name: "측정타입",
-    },
 ]
 
 const AdminMenu = () => {
