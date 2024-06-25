@@ -15,7 +15,6 @@ jobs:
       body: ${{ steps.tag_version.outputs.changelog }}
     name: 태그 생성
     runs-on: ubuntu-latest
-    needs: build
     steps:
       - uses: actions/checkout@v3
       - name: Bump version and push tag
