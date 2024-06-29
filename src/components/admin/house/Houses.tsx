@@ -1,6 +1,6 @@
 'use client'
 
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalConext";
 import {Button} from "@/components/ui/button";
 import DataTable from "@/components/common/DataTable";
@@ -12,15 +12,6 @@ import HouseCreateModal from "@/components/admin/house/HouseCreateModal";
 import {Skeleton} from "@/components/ui/skeleton";
 
 const Houses = () => {
-    const [width, setWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 0);
-
-    useEffect(() => {
-        const handleResize = () => setWidth(window.innerWidth);
-        window.addEventListener("resize", handleResize);
-
-        // Cleanup event listener on component unmount
-        return () => window.removeEventListener("resize", handleResize);
-    }, []);
 
     const router = useRouter();
     const {openModal, modalState} = useContext(ModalContext);
@@ -48,7 +39,6 @@ const Houses = () => {
         )
     }
 
-
     return (
         <>
             <div className="flex flex-col p-2 space-y-2">
@@ -65,67 +55,48 @@ const Houses = () => {
                     ))}
                 </div>}
 
-                {!isLoading && <div style={width < 1024 ? {width: width - 20} : {}} className="overflow-x-auto">
-                    <div className={`${width < 1024 ? "w-[1000px]" : "w-full"}`}>
-                        <DataTable
-                            columns={[
-                                {
-                                    accessorKey: "id",
-                                    header: () => <div className="text-center">Id</div>,
-                                    cell: ({cell}) => <div className="text-center">{cell.getValue<string>()}</div>,
-                                },
-                                {
-                                    accessorKey: "name",
-                                    header: () => <div className="text-center">하우스명</div>,
-                                    cell: ({cell}) => <div className="text-center">{cell.getValue<string>()}</div>,
-                                },
-                                {
-                                    accessorKey: "createdAt",
-                                    header: () => <div className="text-center">생성일</div>,
-                                    cell: ({cell}) => <div
-                                        className="text-center">{formatDate(cell.getValue<string>())}</div>,
-                                },
-                                {
-                                    accessorKey: "updatedAt",
-                                    header: () => <div className="text-center">수정일</div>,
-                                    cell: ({cell}) => <div
-                                        className="text-center">{formatDate(cell.getValue<string>())}</div>,
-                                },
-                                {
-                                    accessorKey: "syncStatus",
-                                    header: () => <div className="text-center">상태</div>,
-                                    cell: ({cell}) => <div className="text-center">{cell.getValue<string>()}</div>,
-                                },
-                                {
-                                    accessorKey: "houseSync",
-                                    header: () => <div className="text-center">하우스 동기화</div>,
-                                    cell: ({row}) => {
-                                        const houseId = row.original.id;
-                                        const syncStatus = row.original.syncStatus;
-                                        return (
-                                            <div className="flex justify-center">
-                                                <HouseSync houseId={houseId || ""} houseStatus={syncStatus || ""}/>
-                                            </div>
-                                        )
-                                    },
-                                },
-                            ]}
-                            data={houses?.map(house => {
-                                return {
-                                    ...house,
-                                    onClick: () => router.push(`/admin/houses/${house.id}`)
-                                }
-                            }) || []}
-                            initialState={{
-                                columnVisibility: {
-                                    id: width > 1024,
-                                    createdAt: width > 1024,
-                                    updatedAt: width > 1024,
-                                },
-                            }}
-                        />
-                    </div>
+                {!isLoading && <div className="w-full">
+                    <DataTable
+                        columns={[
+                            {
+                                accessorKey: "id",
+                                header: () => <div className="hidden md:flex md:justify-center">Id</div>,
+                                cell: ({cell}) => <div
+                                    className="hidden md:flex md:justify-center">{cell.getValue<string>()}</div>,
+                            },
+                            {
+                                accessorKey: "name",
+                                header: () => <div className="text-center">하우스명</div>,
+                                cell: ({cell}) => <div className="text-center">{cell.getValue<string>()}</div>,
+                            },
+                            {
+                                accessorKey: "createdAt",
+                                header: () => <div className="hidden md:flex md:justify-center">생성일</div>,
+                                cell: ({cell}) => <div
+                                    className="hidden md:flex md:justify-center">{formatDate(cell.getValue<string>())}</div>,
+                            },
+                            {
+                                accessorKey: "updatedAt",
+                                header: () => <div className="hidden md:flex md:justify-center">수정일</div>,
+                                cell: ({cell}) => <div
+                                    className="hidden md:flex md:justify-center">{formatDate(cell.getValue<string>())}</div>,
+                            },
+                            {
+                                accessorKey: "syncStatus",
+                                header: () => <div className="hidden md:flex md:justify-center">상태</div>,
+                                cell: ({cell}) => <div
+                                    className="hidden md:flex md:justify-center">{cell.getValue<string>()}</div>,
+                            }
+                        ]}
+                        data={houses?.map(house => {
+                            return {
+                                ...house,
+                                onClick: () => router.push(`/admin/houses/${house.id}`)
+                            }
+                        }) || []}
+                    />
                 </div>
+
                 }
             </div>
 

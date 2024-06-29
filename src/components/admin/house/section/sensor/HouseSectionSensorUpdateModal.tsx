@@ -2,7 +2,6 @@ import {
     Dialog,
     DialogContent,
     DialogDescription,
-    DialogFooter,
     DialogHeader,
     DialogTitle
 } from "@/components/ui/dialog";
@@ -19,7 +18,6 @@ import {
     useUpdateHouseSectionSensor
 } from "@/openapi/api/houses/houses";
 import {FindAllHouseSectionsResponseHouseSectionSensor, UpdateHouseSectionSensorForm} from "@/openapi/model";
-import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
 import {Skeleton} from "@/components/ui/skeleton";
 import {ToastAction} from "@/components/ui/toast";
 import {Separator} from "@/components/ui/separator";
@@ -66,7 +64,7 @@ const HouseSectionSensorUpdateModal = () => {
 
     const {mutate: deleteHouseSectionSensor} = useDeleteHouseSectionSensor({
         mutation: {
-            onSuccess: async (data) => {
+            onSuccess: async () => {
                 toast({description: "성공적으로 하우스 동 센서가 삭제되었습니다."})
                 closeModal({
                     name: ModalTypes.HOUSE_SECTION_SENSOR_UPDATE

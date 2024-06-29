@@ -79,7 +79,7 @@ const HouseSectionSync = ({
                  event.stopPropagation();
              }}>
             {isLoading ?
-                <RiLoader3Fill className="w-7 h-7 animate-spin text-gray-400 my-1.5"/>
+                <RiLoader3Fill className="w-8 h-8 animate-spin text-gray-400"/>
                 :
                 <Button
                     className="p-0"

@@ -30,7 +30,7 @@ const HouseSection = ({houseSection, houseId, onDeleteSubmit}: HouseSectionProps
                 className="flex flex-col justify-between bg-secondary/60 space-y-2 shadow-lg overflow-y-auto overflow-x-hidden p-3">
 
                 <div className="flex flex-col flex-1">
-                    <div className="flex justify-between items-center">
+                    <div className="flex justify-between items-center h-[40px]">
                         <div className="font-semibold cursor-default">하우스 동 동기화</div>
                         <HouseSectionSync
                             houseId={houseId}

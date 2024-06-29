@@ -33,7 +33,7 @@ export function DataTable<TData, TValue>({
                             <TableRow key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => {
                                     return (
-                                        <TableHead key={header.id} className="w-fit">
+                                        <TableHead key={header.id} className="w-fit px-0 md:px-4">
                                             {header.isPlaceholder
                                                 ? null
                                                 : flexRender(
@@ -58,7 +58,7 @@ export function DataTable<TData, TValue>({
                                     data-state={row.getIsSelected() && "selected"}
                                 >
                                     {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id}>
+                                        <TableCell className="p-0 py-4 md:p-4" key={cell.id}>
                                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                         </TableCell>
                                     ))}

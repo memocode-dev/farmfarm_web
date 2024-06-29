@@ -6,22 +6,27 @@ import {Skeleton} from "@/components/ui/skeleton";
 import {Button} from "@/components/ui/button";
 import {toast} from "@/components/ui/use-toast";
 import {ToastAction} from "@/components/ui/toast";
-import {useDeleteHouse, useUpdateHouse} from "@/openapi/api/houses/houses";
+import {useDeleteHouse, useFindHouse, useUpdateHouse} from "@/openapi/api/houses/houses";
 import {useForm} from "react-hook-form";
-import {FindHouseResponse, UpdateHouseForm} from "@/openapi/model";
+import {UpdateHouseForm} from "@/openapi/model";
 import {useEffect} from "react";
 import {useRouter} from "next/navigation";
+import HouseSync from "@/components/admin/house/HouseSync";
 
 interface HouseUpdateCardProps {
     houseId: string;
-    house: FindHouseResponse;
-    isLoading: boolean;
-    findHouseRefetch: () => void;
 }
 
-const HouseUpdate = ({houseId, house, isLoading, findHouseRefetch}: HouseUpdateCardProps) => {
+const HouseUpdate = ({houseId}: HouseUpdateCardProps) => {
 
     const router = useRouter();
+
+    const {isError, isLoading, data: house, refetch: findHouseRefetch} =
+        useFindHouse(houseId, {
+            query: {
+                queryKey: ['Houses', houseId],
+            },
+        });
 
     const {mutate: deleteHouse} = useDeleteHouse({
         mutation: {
@@ -99,10 +104,23 @@ const HouseUpdate = ({houseId, house, isLoading, findHouseRefetch}: HouseUpdateC
         }
     }, [house]);
 
+    if (isError) {
+        return (
+            <div className="flex space-x-4">
+                <div>잠시후에 다시 시도해주세요</div>
+                <Button onClick={() => findHouseRefetch()}>재시도</Button>
+            </div>
+        )
+    }
+
     return (
         <Card className="w-full">
-            <CardHeader>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0">
                 <CardTitle>하우스 정보</CardTitle>
+                <div className="flex flex-col items-center h-[64px]">
+                    <div>하우스 동기화</div>
+                    <HouseSync houseId={houseId} houseStatus={house?.syncStatus!}/>
+                </div>
             </CardHeader>
             <CardContent>
                 <form>

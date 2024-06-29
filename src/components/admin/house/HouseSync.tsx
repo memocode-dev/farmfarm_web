@@ -1,5 +1,5 @@
 import {toast} from "@/components/ui/use-toast";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Button} from "@/components/ui/button";
 import {RiLoader3Fill, RiRefreshLine} from "react-icons/ri";
 import {useFindAllHouses, useSyncHouse} from "@/openapi/api/houses/houses";
@@ -12,9 +12,10 @@ interface HouseSyncProps {
 const HouseSync = ({houseId, houseStatus}: HouseSyncProps) => {
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [currentStatus, setCurrentStatus] = useState<string>(houseStatus);
+    const [currentStatus, setCurrentStatus] = useState<string>();
+    console.log("houseStatus", houseStatus)
 
-    const {data: housesArrayData, refetch: findAllHousesRefetch} =
+    const {refetch: findAllHousesRefetch} =
         useFindAllHouses({
             query: {
                 queryKey: ['Houses', houseId],
@@ -22,6 +23,12 @@ const HouseSync = ({houseId, houseStatus}: HouseSyncProps) => {
         });
 
     const {mutateAsync: houseSyncToLocalDevice} = useSyncHouse();
+
+    useEffect(() => {
+        if(houseStatus){
+            setCurrentStatus(houseStatus)
+        }
+    }, [houseStatus]);
 
     const HandleSync = async () => {
         setIsLoading(true); // 로딩 스피너 표시
@@ -73,14 +80,15 @@ const HouseSync = ({houseId, houseStatus}: HouseSyncProps) => {
                  event.stopPropagation();
              }}>
             {isLoading ?
-                <RiLoader3Fill className="w-7 h-7 animate-spin text-gray-400 my-1.5"/>
+                <RiLoader3Fill className="w-9 h-9 animate-spin text-gray-400 my-0.5"/>
                 :
                 <Button
-                    variant="ghost"
+                    variant={null}
                     onClick={HandleSync}
                     className="p-0"
                 >
-                    <RiRefreshLine className={`${currentStatus === "HEALTHY" ? 'text-primary' : 'text-gray-400'} w-6 h-6`}/>
+                    <RiRefreshLine
+                        className={`${currentStatus === "HEALTHY" ? 'text-primary' : 'text-gray-400'} w-8 h-8`}/>
                 </Button>
             }
         </div>
