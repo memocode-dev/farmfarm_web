@@ -13,7 +13,6 @@ const HouseSync = ({houseId, houseStatus}: HouseSyncProps) => {
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [currentStatus, setCurrentStatus] = useState<string>();
-    console.log("houseStatus", houseStatus)
 
     const {refetch: findAllHousesRefetch} =
         useFindAllHouses({

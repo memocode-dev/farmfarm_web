@@ -22,6 +22,7 @@ import {Skeleton} from "@/components/ui/skeleton";
 import {ToastAction} from "@/components/ui/toast";
 import {Separator} from "@/components/ui/separator";
 import {RiCelsiusLine, RiPercentLine} from "react-icons/ri";
+import HouseSectionSensorGraph from "@/components/admin/house/section/sensor/HouseSectionSensorGraph";
 
 const HouseSectionSensorUpdateModal = () => {
 
@@ -137,14 +138,14 @@ const HouseSectionSensorUpdateModal = () => {
                 }
             }}
         >
-            <DialogContent className="rounded-lg max-w-[90%] max-h-[90vh] w-[600px] p-0 sm:p-6">
+            <DialogContent className="rounded-lg max-w-[90%] h-[90%] w-[600px] p-0 sm:p-6">
                 <DialogHeader className="px-6 pt-6 sm:p-0">
                     <DialogTitle>하우스 동 센서 정보</DialogTitle>
                     <DialogDescription>
                         하우스 동 센서의 정보를 확인하고, 수정할 수 있습니다.
                     </DialogDescription>
                 </DialogHeader>
-                <div className="h-[620px] overflow-y-auto px-3">
+                <div className="h-[100%] overflow-y-auto px-3">
                     <form className="flex flex-col py-[10px] space-y-7">
                         {!isLoading && sensor &&
                             <>
@@ -154,11 +155,11 @@ const HouseSectionSensorUpdateModal = () => {
                                 </div>
                                 <div className="space-y-1">
                                     <Label htmlFor="nameForAdmin">관리자용 센서명</Label>
-                                    <Input id="nameForAdmin" {...register("nameForAdmin")} />
+                                    <Input autoFocus={true} id="nameForAdmin" {...register("nameForAdmin")} />
                                 </div>
                                 <div className="space-y-1">
                                     <Label htmlFor="nameForUser">사용자용 센서명</Label>
-                                    <Input id="nameForUser" {...register("nameForUser")}/>
+                                    <Input autoFocus={false} id="nameForUser" {...register("nameForUser")}/>
                                 </div>
                                 <div className="space-y-1">
                                     <Label htmlFor="sensorModelInfo_name">센서모델명</Label>
@@ -206,6 +207,8 @@ const HouseSectionSensorUpdateModal = () => {
                                     <Label htmlFor="syncStatus">센서 동기화</Label>
                                     <Input disabled={true} id="syncStatus" value={sensor.syncStatus}/>
                                 </div>
+
+                                <HouseSectionSensorGraph houseId={houseId!} houseSectionId={houseSectionId!} sensor={sensor}/>
                             </>
                         }
 

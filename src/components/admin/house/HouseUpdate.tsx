@@ -24,7 +24,7 @@ const HouseUpdate = ({houseId}: HouseUpdateCardProps) => {
     const {isError, isLoading, data: house, refetch: findHouseRefetch} =
         useFindHouse(houseId, {
             query: {
-                queryKey: ['Houses', houseId],
+                queryKey: ['HouseUpdate', houseId],
             },
         });
 

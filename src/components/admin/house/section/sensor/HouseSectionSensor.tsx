@@ -123,10 +123,10 @@ const HouseSectionSensor = ({houseId, houseSectionId, sensor}: HouseSectionSenso
             </div>
 
             <div className="flex-1 py-5">
-                {sensor.sensorModelInfo.measurementDetails?.map(({measurementType, measurementUnit}) => {
+                {sensor.sensorModelInfo.measurementDetails?.map(({measurementType, measurementUnit}, index) => {
                     const measurement = sensor.measurements![measurementType!];
                     return (
-                        <div className="flex flex-1">
+                        <div key={index} className="flex flex-1">
                             <div className="flex flex-col flex-1">
                                 {measurement.measurementType === "TEMPERATURE" &&
                                     <div className="flex relative h-10">
