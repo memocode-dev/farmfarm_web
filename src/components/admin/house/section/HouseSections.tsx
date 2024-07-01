@@ -13,6 +13,8 @@ import HouseSectionSensorUpdateModal from "@/components/admin/house/section/sens
 import {FindAllHouseSectionsResponseHouseSection} from "@/openapi/model";
 import {Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger} from "@/components/ui/menubar";
 import {IoIosMore} from "react-icons/io";
+import HouseSectionSensorGraph from "@/components/admin/house/section/sensor/HouseSectionSensorGraphModal";
+import HouseSectionSensorGraphModal from "@/components/admin/house/section/sensor/HouseSectionSensorGraphModal";
 
 interface HouseSectionsProps {
     houseId: string;
@@ -172,6 +174,8 @@ const HouseSections = ({houseId}: HouseSectionsProps) => {
 
             <HouseSectionUpdateModal/>
             <HouseSectionSensorUpdateModal/>
+
+            <HouseSectionSensorGraphModal/>
         </>
     )
 }

@@ -22,7 +22,6 @@ import {Skeleton} from "@/components/ui/skeleton";
 import {ToastAction} from "@/components/ui/toast";
 import {Separator} from "@/components/ui/separator";
 import {RiCelsiusLine, RiPercentLine} from "react-icons/ri";
-import HouseSectionSensorGraph from "@/components/admin/house/section/sensor/HouseSectionSensorGraph";
 
 const HouseSectionSensorUpdateModal = () => {
 
@@ -207,8 +206,6 @@ const HouseSectionSensorUpdateModal = () => {
                                     <Label htmlFor="syncStatus">센서 동기화</Label>
                                     <Input disabled={true} id="syncStatus" value={sensor.syncStatus}/>
                                 </div>
-
-                                <HouseSectionSensorGraph houseId={houseId!} houseSectionId={houseSectionId!} sensor={sensor}/>
                             </>
                         }
 

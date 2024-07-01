@@ -3,13 +3,14 @@ import {RiLoader3Fill, RiRefreshLine} from "react-icons/ri";
 import {Button} from "@/components/ui/button";
 import {useFindAllHouseSections, useSyncHouseSectionSensor} from "@/openapi/api/houses/houses";
 import {toast} from "@/components/ui/use-toast";
-import {useState} from "react";
+import {useContext, useState} from "react";
 import {FindAllHouseSectionsResponseHouseSectionSensor} from "@/openapi/model";
 import {WiRaindrop} from "react-icons/wi";
 import {Badge} from "@/components/ui/badge";
 import timeSince from "@/utils/timeSince";
 import {CiTempHigh} from "react-icons/ci";
 import HouseSectionSensorUnit from "@/components/admin/house/section/sensor/HouseSectionSensorUnit";
+import {ModalContext, ModalTypes} from "@/context/ModalConext";
 
 interface HouseSectionSensorProps {
     houseId: string;
@@ -19,6 +20,7 @@ interface HouseSectionSensorProps {
 
 const HouseSectionSensor = ({houseId, houseSectionId, sensor}: HouseSectionSensorProps) => {
 
+    const {openModal} = useContext(ModalContext);
     const [loadingSensorId, setLoadingSensorId] = useState<string | null>(null);
     const [currentStatus, setCurrentStatus] = useState<string>(sensor.syncStatus!);
 
@@ -99,25 +101,46 @@ const HouseSectionSensor = ({houseId, houseSectionId, sensor}: HouseSectionSenso
                     </div>
                 </div>
 
-                <div className="flex flex-col items-center border-l pl-3">
-                    <div className="text-sm">센서 동기화</div>
-                    <div
-                        onClick={(event) => {
-                            event.stopPropagation();
-                        }}>
-                        {loadingSensorId === sensor.id ?
-                            <RiLoader3Fill
-                                className="w-7 h-7 animate-spin text-gray-400 my-1.5"/>
-                            :
-                            <Button
-                                className="p-0"
-                                variant={null}
-                                onClick={() => HandleSync(sensor.id!)}
-                            >
-                                <RiRefreshLine
-                                    className={`${currentStatus === "HEALTHY" ? 'text-primary' : 'text-gray-400'} w-6 h-6 mr-0.5`}/>
-                            </Button>
-                        }
+                <div className="flex flex-col items-center justify-between border-l pl-3">
+                    <div className="flex flex-col items-center">
+                        <div className="text-sm">센서 동기화</div>
+                        <div
+                            onClick={(event) => {
+                                event.stopPropagation();
+                            }}>
+                            {loadingSensorId === sensor.id ?
+                                <RiLoader3Fill
+                                    className="w-7 h-7 animate-spin text-gray-400 my-1.5"/>
+                                :
+                                <Button
+                                    className="p-0"
+                                    variant={null}
+                                    onClick={() => HandleSync(sensor.id!)}
+                                >
+                                    <RiRefreshLine
+                                        className={`${currentStatus === "HEALTHY" ? 'text-primary' : 'text-gray-400'} w-6 h-6 mr-0.5`}/>
+                                </Button>
+                            }
+                        </div>
+                    </div>
+
+                    <div>
+                        <Button className="w-fit h-fit px-2 py-1"
+                                onClick={(event) => {
+                                    event.stopPropagation();
+
+                                    openModal({
+                                        name: ModalTypes.HOUSE_SECTION_SENSOR_UPDATE,
+                                        data: {
+                                            houseId: houseId,
+                                            houseSectionId: houseSectionId,
+                                            sensor: sensor
+                                        }
+                                    })
+                                }}
+                        >
+                            센서 정보
+                        </Button>
                     </div>
                 </div>
             </div>
@@ -136,7 +159,9 @@ const HouseSectionSensor = ({houseId, houseSectionId, sensor}: HouseSectionSenso
                                         <HouseSectionSensorUnit measurementUnit={measurementUnit!}/>
                                         <Badge
                                             variant="outline"
-                                            onClick={(event) => {event.stopPropagation();}}
+                                            onClick={(event) => {
+                                                event.stopPropagation();
+                                            }}
                                             className="absolute right-1 top-[13px] h-fit w-fit text-sm">{timeSince(new Date(measurement.measuredAt))}</Badge>
                                     </div>
                                 }
@@ -149,7 +174,9 @@ const HouseSectionSensor = ({houseId, houseSectionId, sensor}: HouseSectionSenso
                                         <HouseSectionSensorUnit measurementUnit={measurementUnit!}/>
                                         <Badge
                                             variant="outline"
-                                            onClick={(event) => {event.stopPropagation();}}
+                                            onClick={(event) => {
+                                                event.stopPropagation();
+                                            }}
                                             className="absolute right-1 top-[18px] h-fit w-fit text-sm">{timeSince(new Date(measurement.measuredAt))}</Badge>
                                     </div>
                                 }

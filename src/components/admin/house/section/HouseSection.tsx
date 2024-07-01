@@ -50,7 +50,7 @@ const HouseSection = ({houseSection, houseId, onDeleteSubmit}: HouseSectionProps
                                             <div key={index}
                                                  className="flex border bg-secondary rounded py-2 px-3 cursor-pointer"
                                                  onClick={() => openModal({
-                                                     name: ModalTypes.HOUSE_SECTION_SENSOR_UPDATE,
+                                                     name: ModalTypes.HOUSE_SECTION_SENSOR_GRAPH,
                                                      data: {
                                                          houseId: houseId,
                                                          houseSectionId: houseSection.id,

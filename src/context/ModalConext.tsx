@@ -23,16 +23,10 @@ export enum ModalTypes {
     // houseSectionSensor
     HOUSE_SECTION_SENSOR_CREATE = "HOUSE_SECTION_SENSOR_CREATE",
     HOUSE_SECTION_SENSOR_UPDATE = "HOUSE_SECTION_SENSOR_UPDATE",
-
+    HOUSE_SECTION_SENSOR_GRAPH = "HOUSE_SECTION_SENSOR_GRAPH",
 
     // organization
     ORGANIZATION_CREATE = "ORGANIZATION_CREATE",
-//     ORGANIZATION_MEMBER_CREATE = "ORGANIZATION_MEMBER_CREATE",
-//     ORGANIZATION_HOUSE_CREATE = "ORGANIZATION_HOUSE_CREATE",
-//
-// // measurementType
-//     MEASUREMENT_TYPE_CREATE = "MEASUREMENT_TYPE_CREATE",
-
 }
 
 type IModal = {
@@ -78,6 +72,14 @@ type IModal = {
             sensor: FindAllHouseSectionsResponseHouseSectionSensor
         }
     },
+    [ModalTypes.HOUSE_SECTION_SENSOR_GRAPH]: {
+        isVisible: boolean,
+        data: {
+            houseId: string,
+            houseSectionId: string,
+            sensor: FindAllHouseSectionsResponseHouseSectionSensor
+        }
+    },
 
     // organization
     [ModalTypes.ORGANIZATION_CREATE]: {
@@ -104,8 +106,7 @@ const initialModalState: IModal = {
         isVisible: false,
         data: {
             houseId: "",
-            setCreatedHouseSectionId: () => {
-            }
+            setCreatedHouseSectionId: () => {}
         },
     },
     [ModalTypes.HOUSE_SECTION_UPDATE]: {
@@ -123,6 +124,24 @@ const initialModalState: IModal = {
         data: "",
     },
     [ModalTypes.HOUSE_SECTION_SENSOR_UPDATE]: {
+        isVisible: false,
+        data: {
+            houseId: "",
+            houseSectionId: "",
+            sensor: {
+                createdAt: "",
+                id: "",
+                nameForAdmin: "",
+                nameForUser: "",
+                portName: "",
+                updatedAt: "",
+                syncStatus: "UNHEALTHY",
+                measurements: {},
+                sensorModelInfo: {}
+            }
+        }
+    },
+    [ModalTypes.HOUSE_SECTION_SENSOR_GRAPH]: {
         isVisible: false,
         data: {
             houseId: "",
