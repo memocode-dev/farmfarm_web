@@ -138,7 +138,7 @@ const HouseSectionSensorUpdateModal = () => {
                 }
             }}
         >
-            <DialogContent className="rounded-lg max-w-[90%] h-[90%] w-[600px] p-0 sm:p-6">
+            <DialogContent onOpenAutoFocus={(e) => e.preventDefault()} className="rounded-lg max-w-[90%] h-[90%] w-[600px] p-0 sm:p-6">
                 <DialogHeader className="px-6 pt-6 sm:p-0">
                     <DialogTitle>하우스 동 센서 정보</DialogTitle>
                     <DialogDescription>
@@ -155,11 +155,11 @@ const HouseSectionSensorUpdateModal = () => {
                                 </div>
                                 <div className="space-y-1">
                                     <Label htmlFor="nameForAdmin">관리자용 센서명</Label>
-                                    <Input autoFocus={true} id="nameForAdmin" {...register("nameForAdmin")} />
+                                    <Input id="nameForAdmin" {...register("nameForAdmin")} />
                                 </div>
                                 <div className="space-y-1">
                                     <Label htmlFor="nameForUser">사용자용 센서명</Label>
-                                    <Input autoFocus={false} id="nameForUser" {...register("nameForUser")}/>
+                                    <Input id="nameForUser" {...register("nameForUser")}/>
                                 </div>
                                 <div className="space-y-1">
                                     <Label htmlFor="sensorModelInfo_name">센서모델명</Label>

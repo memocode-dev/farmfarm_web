@@ -97,7 +97,7 @@ const HouseSectionUpdateModal = () => {
                 }
             }}
         >
-            <DialogContent className="rounded-lg max-w-[90%] w-[300px]">
+            <DialogContent onOpenAutoFocus={(e) => e.preventDefault()} className="rounded-lg max-w-[90%] w-[300px]">
                 <DialogHeader>
                     <DialogTitle>하우스 동 수정</DialogTitle>
                     <DialogDescription>

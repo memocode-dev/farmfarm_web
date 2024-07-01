@@ -69,7 +69,7 @@ const OrganizationCreateModal = () => {
                 }
             }}
         >
-            <DialogContent>
+            <DialogContent onOpenAutoFocus={(e) => e.preventDefault()}>
                 <DialogHeader>
                     <DialogTitle>조직 생성</DialogTitle>
                     <DialogDescription>

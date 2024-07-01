@@ -61,7 +61,7 @@ const HouseCreateModal = () => {
                 }
             }}
         >
-            <DialogContent>
+            <DialogContent onOpenAutoFocus={(e) => e.preventDefault()}>
                 <DialogHeader>
                     <DialogTitle>하우스 생성</DialogTitle>
                     <DialogDescription>

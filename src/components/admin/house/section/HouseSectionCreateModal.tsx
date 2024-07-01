@@ -83,7 +83,7 @@ const HouseSectionCreateModal = () => {
                 }
             }}
         >
-            <DialogContent className="rounded-lg max-w-[90%] w-[400px]">
+            <DialogContent onOpenAutoFocus={(e) => e.preventDefault()} className="rounded-lg max-w-[90%] w-[400px]">
                 <DialogHeader>
                     <DialogTitle>하우스 동 생성</DialogTitle>
                     <DialogDescription>
