@@ -56,7 +56,7 @@ const MainCarouselAnimation = forwardRef<HTMLDivElement, Record<string, never>>(
     return (
         <div
             ref={ref}
-            className="flex justify-center items-center relative my-40 sm:my-32 w-[80%] bg-white p-1"
+            className="flex justify-center items-center relative my-40 sm:my-32 w-[85%] bg-white"
             style={{
                 opacity: startedScrolling ? opacity : 0,
                 transform: `scale(${scale / 100})`,
@@ -69,7 +69,7 @@ const MainCarouselAnimation = forwardRef<HTMLDivElement, Record<string, never>>(
                         <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
                             <div className="p-1">
                                 <Card className="bg-gray-50 border-none">
-                                    <CardContent className="flex flex-col space-y-4 justify-center aspect-square p-6">
+                                    <CardContent className="flex flex-col space-y-4 justify-center aspect-square p-4 sm:p-6">
                                         <span className="text-2xl font-semibold">{text.content}</span>
                                         <span className="text-lg font-medium">{text.description}</span>
 

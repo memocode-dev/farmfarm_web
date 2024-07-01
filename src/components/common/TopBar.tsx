@@ -14,7 +14,7 @@ import {useKeycloak} from "@/context/KeycloakContext";
 
 const TopBar = () => {
 
-    const {user_info, login, isLogined, logout} = useKeycloak();
+    const {login, isLogined, logout} = useKeycloak();
     const router = useRouter();
     const pathname = usePathname();
     const [isOpen, setIsOpen] = useState<boolean>(false);

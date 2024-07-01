@@ -40,7 +40,7 @@ const MainCarouselButton = () => {
         <>
             <div
                 onClick={scrollToCarousel}
-                className={`${scrollButton ? `hidden` : `flex`} flex-col fixed bottom-10 justify-center items-center cursor-pointer`}>
+                className={`${scrollButton ? `hidden` : `flex`} flex-col fixed bottom-20 md:bottom-10 justify-center items-center cursor-pointer`}>
                 <IoIosArrowDown
                     className="absolute mb-9 w-10 h-10 sm:w-12 sm:h-12 tw-arrow-fadeIn1"/>
                 <IoIosArrowDown
