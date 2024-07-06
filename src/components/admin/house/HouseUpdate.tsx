@@ -42,7 +42,7 @@ const HouseUpdate = ({houseId}: HouseUpdateCardProps) => {
                         toast({
                             variant: "destructive",
                             title: "하우스 상태 : NOT_HEALTHY",
-                            description: "하우스 수정에 실패하였습니다.",
+                            description: "하우스 삭제에 실패하였습니다.",
                         })
                     )
                 }

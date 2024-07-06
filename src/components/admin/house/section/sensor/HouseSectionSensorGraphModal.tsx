@@ -29,7 +29,7 @@ const HouseSectionSensorGraphModal = () => {
                 refetchInterval: 60000,
             }
         });
-    console.log("houseId!, houseSectionId!, sensor?.id!", houseId!, houseSectionId!, sensor?.id!)
+    console.log("houseSectionSensorData",houseSectionSensorData)
 
     const xTicks = Array.from({length: 288}, (_, index) => {
         const hour = Math.floor(index / 12);

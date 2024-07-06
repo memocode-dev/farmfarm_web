@@ -12,6 +12,10 @@ const BottomBar = () => {
         router.back();
     };
 
+    const handleRefresh = () => {
+        window.location.reload();
+    };
+
     const goForward = () => {
         window.history.forward();
     };
@@ -23,7 +27,7 @@ const BottomBar = () => {
                 <Button variant="ghost" className="w-fit h-fit px-2" onClick={goBack}>
                     <IoMdReturnLeft className="w-7 h-7"/>
                 </Button>
-                <Button variant="ghost" className="w-fit h-fit px-2" onClick={() => router.refresh()}>
+                <Button variant="ghost" className="w-fit h-fit px-2" onClick={handleRefresh}>
                     <IoMdRefresh className="w-7 h-7"/>
                 </Button>
                 <Button variant="ghost" className="w-fit h-fit px-2" onClick={goForward}>

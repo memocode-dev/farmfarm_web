@@ -38,11 +38,21 @@ const HouseSectionUpdateModal = () => {
             },
             onError: (error) => {
                 console.log(error)
+                const errorStatus = error.response?.status
+                if (errorStatus === 500) {
+                    return (
+                        toast({
+                            variant: "destructive",
+                            description: "하우스 동 번호는 숫자만 입력가능합니다.",
+                        })
+                    )
+                }
+
                 toast({
                     variant: "destructive",
                     title: "하우스 동 수정에 실패하였습니다.",
-                    description: "관리자에게 문의하세요."
-                });
+                    description: "관리자에게 문의하세요.",
+                })
             },
         }
     });
@@ -54,15 +64,6 @@ const HouseSectionUpdateModal = () => {
     } = useForm<UpdateHouseSectionForm>();
 
     const onSubmit = (data: UpdateHouseSectionForm) => {
-        if (typeof data.sectionNumber !== 'number') {
-            return (
-                toast({
-                    variant: "destructive",
-                    description: "동 번호는 숫자만 입력가능합니다."
-                })
-            )
-        }
-
         updateHouseSection({
             houseId: houseId!,
             houseSectionId: houseSectionId!,
