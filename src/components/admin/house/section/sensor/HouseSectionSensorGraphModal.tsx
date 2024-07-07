@@ -142,9 +142,9 @@ const HouseSectionSensorGraphModal = () => {
 
             const groupedData = groupByTime(houseSectionSensorData?.measurements);
 
-            const xTicks = Array.from({length: 288}, (_, index) => {
-                const hour = Math.floor(index / 12);
-                const minute = (index % 12) * 5;
+            const xTicks = Array.from({length: 144}, (_, index) => {
+                const hour = Math.floor(index / 6);
+                const minute = (index % 6) * 10;
                 return `${hour.toString().padStart(2, "0")}:${minute.toString().padStart(2, "0")}`;
             });
 
