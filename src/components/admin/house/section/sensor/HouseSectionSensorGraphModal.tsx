@@ -52,7 +52,6 @@ const HouseSectionSensorGraphModal = () => {
     const [width, setWidth] = useState<number>(0);
     const [date, setDate] =
         useState<Date>(new Date(new Date().setHours(0, 0, 0, 0)))
-
     const [chartData, setChartData] = useState<string[]>()
 
     const {data: houseSectionSensorData} =
@@ -87,33 +86,60 @@ const HouseSectionSensorGraphModal = () => {
         return result;
     };
 
-    const yDomain = {
-        min: Math.min(fieldStats.TEMPERATURE.min, fieldStats.HUMIDITY.min),
-        max: Math.max(fieldStats.TEMPERATURE.max, fieldStats.HUMIDITY.max),
+    const getYDomain = (data: any) => {
+        if (!data) return {min: 0, max: 0};
+
+        const hasTemperature = data.some((item: any) => item.measurementType === 'TEMPERATURE');
+        const hasHumidity = data.some((item: any) => item.measurementType === 'HUMIDITY');
+
+        if (hasTemperature && hasHumidity) {
+            return {
+                min: Math.min(fieldStats.TEMPERATURE.min, fieldStats.HUMIDITY.min),
+                max: Math.max(fieldStats.TEMPERATURE.max, fieldStats.HUMIDITY.max),
+            };
+        } else if (hasTemperature) {
+            return {
+                min: fieldStats.TEMPERATURE.min,
+                max: fieldStats.TEMPERATURE.max,
+            };
+        } else if (hasHumidity) {
+            return {
+                min: fieldStats.HUMIDITY.min,
+                max: fieldStats.HUMIDITY.max,
+            };
+        }
     };
+
+    const yDomain = getYDomain(houseSectionSensorData?.measurements);
 
     useEffect(() => {
         if (!divRef.current) return;
 
-        // ResizeObserver 인스턴스 생성
-        const resizeObserver = new ResizeObserver(entries => {
-            const {width} = entries[0].contentRect;
-            setWidth(width);
-        });
+        if (modalState[ModalTypes.HOUSE_SECTION_SENSOR_GRAPH]?.isVisible === true) {
+            // ResizeObserver 인스턴스 생성
+            const resizeObserver = new ResizeObserver(entries => {
+                const {width} = entries[0].contentRect;
+                setWidth(width);
+            });
 
-        // 관찰 시작
-        resizeObserver.observe(divRef.current);
+            // 관찰 시작
+            resizeObserver.observe(divRef.current);
 
-        // 컴포넌트가 언마운트 될 때 관찰 중단
-        return () => {
-            if (divRef.current) {
-                resizeObserver.unobserve(divRef.current);
-            }
-        };
+            // 컴포넌트가 언마운트 될 때 관찰 중단
+            return () => {
+                if (divRef.current) {
+                    resizeObserver.unobserve(divRef.current);
+                }
+            };
+        }
     }, [divRef.current, modalState[ModalTypes.HOUSE_SECTION_SENSOR_GRAPH]]);
 
     useEffect(() => {
-        if (houseSectionSensorData) {
+        if (modalState[ModalTypes.HOUSE_SECTION_SENSOR_GRAPH]?.isVisible === true) {
+            setHouseId(modalState[ModalTypes.HOUSE_SECTION_SENSOR_GRAPH]?.data.houseId)
+            setHouseSectionId(modalState[ModalTypes.HOUSE_SECTION_SENSOR_GRAPH]?.data.houseSectionId)
+            setHouseSectionSensorId(modalState[ModalTypes.HOUSE_SECTION_SENSOR_GRAPH]?.data.houseSectionSensorId)
+
             const groupedData = groupByTime(houseSectionSensorData?.measurements);
 
             const xTicks = Array.from({length: 288}, (_, index) => {
@@ -132,15 +158,7 @@ const HouseSectionSensorGraphModal = () => {
             });
             setChartData(filledData);
         }
-    }, [houseSectionSensorData]);
-
-    useEffect(() => {
-        if (modalState[ModalTypes.HOUSE_SECTION_SENSOR_GRAPH]?.isVisible === true) {
-            setHouseId(modalState[ModalTypes.HOUSE_SECTION_SENSOR_GRAPH]?.data.houseId)
-            setHouseSectionId(modalState[ModalTypes.HOUSE_SECTION_SENSOR_GRAPH]?.data.houseSectionId)
-            setHouseSectionSensorId(modalState[ModalTypes.HOUSE_SECTION_SENSOR_GRAPH]?.data.houseSectionSensorId)
-        }
-    }, [modalState[ModalTypes.HOUSE_SECTION_SENSOR_GRAPH]]);
+    }, [modalState[ModalTypes.HOUSE_SECTION_SENSOR_GRAPH], houseSectionSensorData]);
 
     return (
         <Dialog
@@ -196,8 +214,8 @@ const HouseSectionSensorGraphModal = () => {
                                         <YAxis
                                             tick={true}
                                             axisLine={true}
-                                            domain={[yDomain.min, yDomain.max]}
-                                            ticks={Array.from({length: (yDomain.max - yDomain.min) / 10 + 1}, (_, index) => yDomain.min + index * 10)}
+                                            domain={[yDomain!.min, yDomain!.max]}
+                                            ticks={Array.from({length: (yDomain!.max - yDomain!.min) / 10 + 1}, (_, index) => yDomain!.min + index * 10)}
                                         />
                                         <Line type="monotone" dataKey="TEMPERATURE" stroke="#ff7300"
                                               activeDot={{r: 8}}/>
