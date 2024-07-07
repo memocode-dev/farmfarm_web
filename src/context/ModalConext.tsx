@@ -77,7 +77,7 @@ type IModal = {
         data: {
             houseId: string,
             houseSectionId: string,
-            sensor: FindAllHouseSectionsResponseHouseSectionSensor
+            houseSectionSensorId: string
         }
     },
 
@@ -106,7 +106,8 @@ const initialModalState: IModal = {
         isVisible: false,
         data: {
             houseId: "",
-            setCreatedHouseSectionId: () => {}
+            setCreatedHouseSectionId: () => {
+            }
         },
     },
     [ModalTypes.HOUSE_SECTION_UPDATE]: {
@@ -146,17 +147,7 @@ const initialModalState: IModal = {
         data: {
             houseId: "",
             houseSectionId: "",
-            sensor: {
-                createdAt: "",
-                id: "",
-                nameForAdmin: "",
-                nameForUser: "",
-                portName: "",
-                updatedAt: "",
-                syncStatus: "UNHEALTHY",
-                measurements: {},
-                sensorModelInfo: {}
-            }
+            houseSectionSensorId: ""
         }
     },
 

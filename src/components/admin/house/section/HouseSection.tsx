@@ -54,7 +54,7 @@ const HouseSection = ({houseSection, houseId, onDeleteSubmit}: HouseSectionProps
                                                      data: {
                                                          houseId: houseId,
                                                          houseSectionId: houseSection.id,
-                                                         sensor: sensor
+                                                         houseSectionSensorId: sensor.id,
                                                      }
                                                  })}
                                             >
