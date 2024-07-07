@@ -62,6 +62,7 @@ const HouseSectionSensorGraphModal = () => {
             query: {
                 queryKey: ['HouseSectionSensorGraphModal', date, houseSectionSensorId],
                 refetchInterval: 60000,
+                enabled: !!modalState[ModalTypes.HOUSE_SECTION_SENSOR_GRAPH]?.isVisible,
             }
         });
 
